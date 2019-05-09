@@ -20,6 +20,7 @@ var isMobile = {
 };
 
 if (true) {
+var airplane;
 var cloudH = 1046;
 var lCloudsPos = -250;
 var rCloudsPos = - lCloudsPos;
@@ -28,7 +29,7 @@ var cloudPosDelta = 85;
 var scene,
     camera, fieldOfView, aspectRatio, nearPlane, farPlane,
     renderer, container,  mixer;
-var flamingo;
+//var flamingo;
 var fPos;
 var HEIGHT, WIDTH;
 var updateOrNot = true;
@@ -69,54 +70,57 @@ var Colors = {
 function init(event){
 
     //event handler for controlling a character using an accelerometer
-    window.addEventListener('devicemotion', handleOrientation);
+    //if(isMobile.any()){
+        window.addEventListener('devicemotion', handleOrientation);
+        alert("devicemotion");
+    //}
 
     createScene();
     createLights();
-    createGround();
-    createSideClouds();
+    //createGround();
+    //createSideClouds();
     createPlane();
 
 
     //first initialising of each cloud row
-    for(var i = 0; i < cloudRowsCount; i++){
-    cloudRows[i] = new cloudRow();
+    // for(var i = 0; i < cloudRowsCount; i++){
+    // cloudRows[i] = new cloudRow();
     
-    cloudRows[i].addClouds();
-    cloudRows[i].rot = globalRot * i;
+    // cloudRows[i].addClouds();
+    // cloudRows[i].rot = globalRot * i;
     
-    scene.add(cloudRows[i].mesh);
-    }
+    // scene.add(cloudRows[i].mesh);
+    // }
     //alert(typeof("<%= javascript_path '/dir/flamingo.js'   %>"));
     //flamingo loading
     //alert(<%= File.open(Rails.root.to_s + '/flamingo.js') %>);
     // loader.load("<%=Rails.root.join('flamingo.js').to_s%>", function( geometry ) {
     // loader.load("flamingo.js", function( geometry ) {
 
-    loader.load('flamingo_load', function( geometry ) {
-        alert("of");
-    var material = new THREE.MeshPhongMaterial( { 
-            morphTargets: true, 
-            vertexColors: THREE.FaceColors 
-        } );
+    // loader.load('flamingo_load', function( geometry ) {
+    //     alert("of");
+    // var material = new THREE.MeshPhongMaterial( { 
+    //         morphTargets: true, 
+    //         vertexColors: THREE.FaceColors 
+    //     } );
         
-    flamingo = new THREE.Mesh(geometry, material);
+    // flamingo = new THREE.Mesh(geometry, material);
     
-    flamingo.position.x = 0;
-    flamingo.position.y = 930;
-    flamingo.position.z = 480;
-    flamingo.scale.set(.3,.3,.3);
-    flamingo.rotateY(Math.PI);
-    scene.add(flamingo);
+    // flamingo.position.x = 0;
+    // flamingo.position.y = 930;
+    // flamingo.position.z = 480;
+    // flamingo.scale.set(.3,.3,.3);
+    // flamingo.rotateY(Math.PI);
+    // scene.add(flamingo);
 
-     if(flamingo){
-         alert("dsf");
-     }
-    // alert(flamingo);
+    //  if(flamingo){
+    //      alert("dsf");
+    //  }
+    // // alert(flamingo);
 
-    //animation mixer for animation handling
-    mixer = new THREE.AnimationMixer(flamingo);
-    mixer.clipAction(geometry.animations[0]).setDuration(1).play();} );	 
+    // //animation mixer for animation handling
+    // mixer = new THREE.AnimationMixer(flamingo);
+    // mixer.clipAction(geometry.animations[0]).setDuration(1).play();} );	 
 
 
     //div element for score displaying
@@ -143,8 +147,8 @@ function init(event){
             rotUpdate = 0.008;
             clock = new THREE.Clock(false);
             clock.start();
-            flamingo.visible = true;
-            flamingo.position.x = 0;
+            airplane.mesh.visible = true;
+            airplane.mesh.position.x = 0;
         }
     
     }
@@ -387,16 +391,18 @@ var AirPlane = function(){
 
 };
 
-var airplane;
+
 
 function createPlane(){
   airplane = new AirPlane();
   airplane.mesh.scale.set(.3,.3,.3);
   airplane.mesh.rotation.y = 1.57;
   airplane.mesh.rotation.x = 0.2;
+  airplane.mesh.position.x = 0;
   airplane.mesh.position.y = 930;
   airplane.mesh.position.z = 480;
   scene.add(airplane.mesh);
+  console.log("created " + airplane.mesh.position.x + " " + airplane.mesh.position.y + " " + airplane.mesh.position.z);
 }
 
 //Declaration of a Cloud as an object
@@ -667,120 +673,126 @@ function loop(){
 
      requestAnimationFrame(loop);                                      //update an animation before the next repaint
   
-    if(flamingo){
-        if(WIDTH < HEIGHT){
-            if(clock.running)
-                clock.stop();
+    if(airplane){
+        // if(WIDTH < HEIGHT){
+        //     if(clock.running)
+        //         clock.stop();
             
-            container.setAttribute('style', 'opacity: 0');
-            document.getElementById('rotate').setAttribute('style', 'opacity: 1');
-            document.getElementById('qrCode').setAttribute('style', 'opacity: 0');
-            return;
-        }
-        else{
-            if(clock.running == false && flamingo.visible){
-                clock.start();
-                container.setAttribute('style', 'opacity: 1');
-                document.getElementById('rotate').setAttribute('style', 'opacity: 0');
-                document.getElementById('qrCode').setAttribute('style', 'opacity: 0');
-            }
+        //     container.setAttribute('style', 'opacity: 0');
+        //     document.getElementById('rotate').setAttribute('style', 'opacity: 1');
+        //     document.getElementById('qrCode').setAttribute('style', 'opacity: 0');
+        //     return;
+        // }
+        // else{
+            // if(clock.running == false && airplane.mesh.visible){
+            //     clock.start();
+            //     container.setAttribute('style', 'opacity: 1');
+            //     document.getElementById('rotate').setAttribute('style', 'opacity: 0');
+            //     document.getElementById('qrCode').setAttribute('style', 'opacity: 0');
+            // }
 
             updateFlamingo();                                                 //flamingo behavior	
 
             delta = clock.getDelta();
 
-            mixer.update(delta);                                              //update animation every 'delta' seconds
+            //mixer.update(delta);                                              //update animation every 'delta' seconds
 
 
               airplane.pilot.updateHairs();
               airplane.propeller.rotation.x += 0.3;
 
-           ground.moveWaves();
-           ground.mesh.rotation.x += 0.005;
+           // ground.moveWaves();
+           // ground.mesh.rotation.x += 0.005;
                 
-            sideClouds.mesh.rotation.x += 0.007;
+           //  sideClouds.mesh.rotation.x += 0.007;
 
-            //clouds rotaion and collision detection
-            for(var i = 0; i < cloudRowsCount; i++)
-            {
-                //if any clouds in a row
-                if(cloudRows[i].clouds.length > 0){
-                    cloudRows[i].mesh.getWorldPosition(cloudRowGlobalPosition);                                     //'cloudRowGlobalPosition' holds global position of each row of clouds
-                    for(var j = 0; j < cloudRows[i].clouds.length; j++){                                           //cheking collision for every cloud
-                        flaPos = flaPos.setFromMatrixPosition( flamingo.matrixWorld );
+            // //clouds rotaion and collision detection
+            // for(var i = 0; i < cloudRowsCount; i++)
+            // {
+            //     //if any clouds in a row
+            //     if(cloudRows[i].clouds.length > 0){
+            //         cloudRows[i].mesh.getWorldPosition(cloudRowGlobalPosition);                                     //'cloudRowGlobalPosition' holds global position of each row of clouds
+            //         for(var j = 0; j < cloudRows[i].clouds.length; j++){                                           //cheking collision for every cloud
+            //             flaPos = flaPos.setFromMatrixPosition( airplane.mesh.matrixWorld );
 
-                        cloudRows[i].clouds[j].mesh.getWorldPosition(cloudGlobalPosition);                          //'cloudGlobalPosition' holds global position of each cloud
+            //             cloudRows[i].clouds[j].mesh.getWorldPosition(cloudGlobalPosition);                          //'cloudGlobalPosition' holds global position of each cloud
                 
-                            //collision detection
-                        if(flaPos.distanceTo(cloudGlobalPosition) < 20                                              
-                            && cloudRowGlobalPosition.y > 150                                                       //this line removes the bug of collision with newly created clouds 
-                            && flamingo.visible === true){
+            //                 //collision detection
+            //             if(flaPos.distanceTo(cloudGlobalPosition) < 20                                              
+            //                 && cloudRowGlobalPosition.y > 150                                                       //this line removes the bug of collision with newly created clouds 
+            //                 && airplane.mesh.visible === true){
 
-                            flamingo.visible = false;
-                            clock.stop();
-                            againButton.style.opacity = 1; 
-                        }	
-                    }
-                }
+            //                 airplane.mesh.visible = false;
+            //                 clock.stop();
+            //                 againButton.style.opacity = 1; 
+            //             }	
+            //         }
+            //     }
                 
-                cloudRows[i].mesh.rotation.x += 0.009;
+            //     cloudRows[i].mesh.rotation.x += 0.009;
                 
-                cloudRows[i].rot += rotUpdate;
+            //     cloudRows[i].rot += rotUpdate;
 
-            //removes a cloud row every lap and makes new one to change a position of obstacles
-                if(cloudRows[i].rot >= 6.18)
-                {
-                cloudRows[i].removeRow();
-                cloudRows[i] = new cloudRow();
+            // //removes a cloud row every lap and makes new one to change a position of obstacles
+            //     if(cloudRows[i].rot >= 6.18)
+            //     {
+            //     cloudRows[i].removeRow();
+            //     cloudRows[i] = new cloudRow();
             
-                cloudRows[i].addClouds();
+            //     cloudRows[i].addClouds();
                     
-                cloudRows[i].rot = 0;
-                scene.add(cloudRows[i].mesh);
+            //     cloudRows[i].rot = 0;
+            //     scene.add(cloudRows[i].mesh);
                     
-                }
+            //     }
 
-            //circular motion of clouds
-                cloudRows[i].mesh.position.z = cloudH * Math.cos(cloudRows[i].rot);
-                cloudRows[i].mesh.position.y = -cloudH * Math.sin(cloudRows[i].rot);
+            // //circular motion of clouds
+            //     cloudRows[i].mesh.position.z = cloudH * Math.cos(cloudRows[i].rot);
+            //     cloudRows[i].mesh.position.y = -cloudH * Math.sin(cloudRows[i].rot);
 
-            }
+           // }
 
             //updates the score
-            if(Math.floor(clock.elapsedTime) > score || score > clock.elapsedTime){
-                if(Math.floor(clock.elapsedTime) > score)
-                    score = Math.floor(clock.elapsedTime);
-                if(score > Math.floor(clock.elapsedTime))
-                    score += score.Math.floor(clock.elapsedTime);
-                scoreText.innerHTML = "Flight time is " + score + " seconds.";
-            }
+            // if(Math.floor(clock.elapsedTime) > score || score > clock.elapsedTime){
+            //     if(Math.floor(clock.elapsedTime) > score)
+            //         score = Math.floor(clock.elapsedTime);
+            //     if(score > Math.floor(clock.elapsedTime))
+            //         score += score.Math.floor(clock.elapsedTime);
+            //     scoreText.innerHTML = "Flight time is " + score + " seconds.";
+            // }
         
-            if(score % 4 === 0){
-                rotUpdate+=0.00001;
-            }
+            // if(score % 4 === 0){
+            //     rotUpdate+=0.00001;
+            // }
 
             renderer.render(scene, camera);                                               //scene rendering
         }
-    }
+    //}
 }
 
 //updates the position of flamingo and keeps it in [-100; 100]
 function updateFlamingo(){
-if(flamingo){
-  
-  flamingo.position.x += fPos;
+if(airplane){
+  // if(isMobile.any()){
+    airplane.mesh.position.x += fPos;
+   //}
+   //else
+    //airplane.mesh.position.x += 1;
 
-    if(flamingo.position.x > 100)
-      flamingo.position.x = 100;
-    else if(flamingo.position.x < -100)
-      flamingo.position.x = -100;
+    if(airplane.mesh.position.x > 100)
+      airplane.mesh.position.x = 100;
+    else if(airplane.mesh.position.x < -100)
+      airplane.mesh.position.x = -100;
 
+    //alert("x " + airplane.mesh.position.x + " y " + airplane.mesh.position.y + " z " + airplane.mesh.position.z +" "+ flaPos)
   }
 }
 
 //getting data from the accelerometer
 function handleOrientation(event){
+    console.log(event.acceleration.y);
     fPos = event.accelerationIncludingGravity.y;
+    //fPos = 0;
 }
 
 //invokes 'init' function when window is loaded
