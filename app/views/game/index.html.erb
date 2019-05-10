@@ -1,0 +1,31 @@
+<!-- <h1>Game#index</h1>
+<p>Find me in app/views/game/index.html.erb</p>
+ -->
+<script type="text/javascript" src="/javascripts/lib/_three.min.js"></script>
+<script type="text/javascript" src="/javascripts/lib/gameN.js"></script>
+<div id="world"></div>
+
+<div id="qrCode">
+        <figure>
+            <!--<img src="img/qr-code.gif" alt="qr code" width="200" height="200">-->
+
+            <figcaption>
+                <h1>OOOPS...</h1>
+                <p>I'm sorry but this game is only for mobile devices</p>
+                <p>Try using your smartphone</p>
+                <!-- <p>Try using your smartphone and scan this QR code to quickly jump to the page with the game</p> -->
+            </figcaption>
+        </figure>
+    </div>
+    <div id="rotate">
+      <figure>
+            <!--<img src="img/rotate.png" alt="Rotate your device to the left" width="200" height="200">-->
+            <%= image_tag('rotate.png', size: '200x200', alt: 'rotae your devise') %>
+            <figcaption>
+                <p>PAUSE</p>
+                <p>To start or continue the game rotate your phone to the left<p>
+                <p>To control the character use <strong>ACCELEROMETER</strong></p>
+                <p>Avoid collisions with clouds</p>
+            </figcaption>
+      </figure>
+    </div>
