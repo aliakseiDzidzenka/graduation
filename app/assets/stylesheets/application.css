@@ -13,3 +13,55 @@
  *= require_tree .
  *= require_self
  */
+
+
+#world{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+    	background: linear-gradient(#9290a6,#8d7b92);
+	opacity: 0;
+}
+#rotate{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	opacity:0;
+}
+#qrCode{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+body{
+	margin: 0;
+}
+figure{
+    	text-align: center;
+}
+img{
+	margin-top: 100px;
+}
+p{
+	marging-bottom: 50px;
+}
+button {
+    background-color: #4CAF50; 
+    color: white; 
+    width: 180px;
+    height: 80px;
+    border: 2px solid white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    top: 50%;
+    margin-top: -40px;
+    left: 50%;
+    margin-left: -90px;
+    position: absolute;
+    opacity: 0;
+}

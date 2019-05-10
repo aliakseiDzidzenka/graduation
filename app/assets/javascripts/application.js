@@ -12,5 +12,27 @@
 //
 //= require rails-ujs
 //= require activestorage
-//= require turbolinks
+
 //= require_tree .
+
+// window.addEventListener('devicemotion', event => {
+//   console.log(event.accelerationIncludingGravity.x + ' m/s^2');
+//   //alert(11);
+// });
+//alert("xcv");
+// navigation.permissions.request({ name: “accelerometer” });
+// //navigation.permissions.request({ name: “accelerometer” }); // For DeviceMotionEvents
+// Promise.all([navigation.permissions.request({ name: “accelerometer” }),
+//              navigation.permissions.request({ name: “gyroscope” })])
+//     .then(results => {
+//       window.addEventListener('devicemotion', handleOrientation);
+//       function handleOrientation(event){
+//     alert(event.accelerationIncludingGravity.y);
+//     alert("xc");
+//     fPos = event.accelerationIncludingGravity.y;
+//     alert(fPos);
+//     //fPos = 0;
+// }
+//     });
+
+// var fPos;
