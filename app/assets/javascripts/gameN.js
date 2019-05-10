@@ -71,7 +71,7 @@ function init(event){
 
     //event handler for controlling a character using an accelerometer
     //if(isMobile.any()){
-        window.addEventListener('devicemotion', handleOrientation);
+    window.addEventListener('devicemotion', handleOrientation);
         alert("devicemotion");
     //}
 
@@ -773,11 +773,12 @@ function loop(){
 //updates the position of flamingo and keeps it in [-100; 100]
 function updateFlamingo(){
 if(airplane){
-  // if(isMobile.any()){
+  if(fPos){
     airplane.mesh.position.x += fPos;
-   //}
-   //else
+   }
+   else
     //airplane.mesh.position.x += 1;
+    //alert(fPos);
 
     if(airplane.mesh.position.x > 100)
       airplane.mesh.position.x = 100;
@@ -790,8 +791,10 @@ if(airplane){
 
 //getting data from the accelerometer
 function handleOrientation(event){
-    console.log(event.acceleration.y);
+    alert(event.accelerationIncludingGravity.y);
+    alert("xc");
     fPos = event.accelerationIncludingGravity.y;
+
     //fPos = 0;
 }
 
