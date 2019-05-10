@@ -10,7 +10,9 @@
   </head>
 
   <body>
-    <%= render 'layouts/alerts'%>
+    <% unless move_flash_messages? %>
+     <%= render 'layouts/alerts' %>
+    <% end %>
     <%= yield %>
   </body>
 </html>

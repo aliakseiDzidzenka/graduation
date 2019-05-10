@@ -18,3 +18,6 @@
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
+
+$(".alert" ).fadeOut(3000);
+$(".notice" ).fadeOut(3000);
