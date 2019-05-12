@@ -54,11 +54,10 @@ var clock = new THREE.Clock(false);
 clock.start();
 var delta = clock.getDelta();
 var againButton;
-//loader for flamingo bird
 var loader = new THREE.JSONLoader();
 
 var Colors = {
-    red:0xf25346,
+    yellowPlane:0xff9000,
     white:0xd8d0d1,
     pink:0xF5986E,
     brown:0x59332e,
@@ -69,11 +68,8 @@ var Colors = {
 //This function initialises our scene
 function init(event){
 
-    //event handler for controlling a character using an accelerometer
-    //if(isMobile.any()){
     window.addEventListener('devicemotion', handleOrientation);
-        //alert("devicemotion");
-    //}
+
 
 
 
@@ -93,36 +89,6 @@ function init(event){
     
     scene.add(cloudRows[i].mesh);
     }
-    //alert(typeof("<%= javascript_path '/dir/flamingo.js'   %>"));
-    //flamingo loading
-    //alert(<%= File.open(Rails.root.to_s + '/flamingo.js') %>);
-    // loader.load("<%=Rails.root.join('flamingo.js').to_s%>", function( geometry ) {
-    // loader.load("flamingo.js", function( geometry ) {
-
-    // loader.load('flamingo_load', function( geometry ) {
-    //     alert("of");
-    // var material = new THREE.MeshPhongMaterial( { 
-    //         morphTargets: true, 
-    //         vertexColors: THREE.FaceColors 
-    //     } );
-        
-    // flamingo = new THREE.Mesh(geometry, material);
-    
-    // flamingo.position.x = 0;
-    // flamingo.position.y = 930;
-    // flamingo.position.z = 480;
-    // flamingo.scale.set(.3,.3,.3);
-    // flamingo.rotateY(Math.PI);
-    // scene.add(flamingo);
-
-    //  if(flamingo){
-    //      alert("dsf");
-    //  }
-    // // alert(flamingo);
-
-    // //animation mixer for animation handling
-    // mixer = new THREE.AnimationMixer(flamingo);
-    // mixer.clipAction(geometry.animations[0]).setDuration(1).play();} );	 
 
 
     //div element for score displaying
@@ -160,257 +126,9 @@ function init(event){
 }
 
 
-
-var Pilot = function(){
-  this.mesh = new THREE.Object3D();
-  this.mesh.name = "pilot";
-  this.angleHairs=0;
-
-  var bodyGeom = new THREE.BoxGeometry(15,15,15);
-  var bodyMat = new THREE.MeshPhongMaterial({color:Colors.brown, shading:THREE.FlatShading});
-  var body = new THREE.Mesh(bodyGeom, bodyMat);
-  body.position.set(2,-12,0);
-
-  this.mesh.add(body);
-
-  var faceGeom = new THREE.BoxGeometry(10,10,10);
-  var faceMat = new THREE.MeshLambertMaterial({color:Colors.pink});
-  var face = new THREE.Mesh(faceGeom, faceMat);
-  this.mesh.add(face);
-
-  var hairGeom = new THREE.BoxGeometry(4,4,4);
-  var hairMat = new THREE.MeshLambertMaterial({color:Colors.brown});
-  var hair = new THREE.Mesh(hairGeom, hairMat);
-  hair.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,2,0));
-  var hairs = new THREE.Object3D();
-
-  this.hairsTop = new THREE.Object3D();
-
-  for (var i=0; i<12; i++){
-    var h = hair.clone();
-    var col = i%3;
-    var row = Math.floor(i/3);
-    var startPosZ = -4;
-    var startPosX = -4;
-    h.position.set(startPosX + row*4, 0, startPosZ + col*4);
-    this.hairsTop.add(h);
-  }
-  hairs.add(this.hairsTop);
-
-  var hairSideGeom = new THREE.BoxGeometry(12,4,2);
-  hairSideGeom.applyMatrix(new THREE.Matrix4().makeTranslation(-6,0,0));
-  var hairSideR = new THREE.Mesh(hairSideGeom, hairMat);
-  var hairSideL = hairSideR.clone();
-  hairSideR.position.set(8,-2,6);
-  hairSideL.position.set(8,-2,-6);
-  hairs.add(hairSideR);
-  hairs.add(hairSideL);
-
-  var hairBackGeom = new THREE.BoxGeometry(2,8,10);
-  var hairBack = new THREE.Mesh(hairBackGeom, hairMat);
-  hairBack.position.set(-1,-4,0)
-  hairs.add(hairBack);
-  hairs.position.set(-5,5,0);
-
-  this.mesh.add(hairs);
-
-  var glassGeom = new THREE.BoxGeometry(5,5,5);
-  var glassMat = new THREE.MeshLambertMaterial({color:Colors.brown});
-  var glassR = new THREE.Mesh(glassGeom,glassMat);
-  glassR.position.set(6,0,3);
-  var glassL = glassR.clone();
-  glassL.position.z = -glassR.position.z
-
-  var glassAGeom = new THREE.BoxGeometry(11,1,11);
-  var glassA = new THREE.Mesh(glassAGeom, glassMat);
-  this.mesh.add(glassR);
-  this.mesh.add(glassL);
-  this.mesh.add(glassA);
-
-  var earGeom = new THREE.BoxGeometry(2,3,2);
-  var earL = new THREE.Mesh(earGeom,faceMat);
-  earL.position.set(0,0,-6);
-  var earR = earL.clone();
-  earR.position.set(0,0,6);
-  this.mesh.add(earL);
-  this.mesh.add(earR);
-}
-
-Pilot.prototype.updateHairs = function(){
-  var hairs = this.hairsTop.children;
-
-  var l = hairs.length;
-  for (var i=0; i<l; i++){
-    var h = hairs[i];
-    h.scale.y = .75 + Math.cos(this.angleHairs+i/3)*.25;
-  }
-  this.angleHairs += 0.16;
-}
-
-
-var AirPlane = function(){
-  this.mesh = new THREE.Object3D();
-  this.mesh.name = "airPlane";
-
-  // Cockpit
-
-  var geomCockpit = new THREE.BoxGeometry(80,50,50,1,1,1);
-  var matCockpit = new THREE.MeshPhongMaterial({color:Colors.red, shading:THREE.FlatShading});
-
-  geomCockpit.vertices[4].y-=10;
-  geomCockpit.vertices[4].z+=20;
-  geomCockpit.vertices[5].y-=10;
-  geomCockpit.vertices[5].z-=20;
-  geomCockpit.vertices[6].y+=30;
-  geomCockpit.vertices[6].z+=20;
-  geomCockpit.vertices[7].y+=30;
-  geomCockpit.vertices[7].z-=20;
-
-  var cockpit = new THREE.Mesh(geomCockpit, matCockpit);
-  cockpit.castShadow = true;
-  cockpit.receiveShadow = true;
-  this.mesh.add(cockpit);
-
-  // Engine
-
-  var geomEngine = new THREE.BoxGeometry(20,50,50,1,1,1);
-  var matEngine = new THREE.MeshPhongMaterial({color:Colors.white, shading:THREE.FlatShading});
-  var engine = new THREE.Mesh(geomEngine, matEngine);
-  engine.position.x = 50;
-  engine.castShadow = true;
-  engine.receiveShadow = true;
-  this.mesh.add(engine);
-
-  // Tail Plane
-
-  var geomTailPlane = new THREE.BoxGeometry(15,20,5,1,1,1);
-  var matTailPlane = new THREE.MeshPhongMaterial({color:Colors.red, shading:THREE.FlatShading});
-  var tailPlane = new THREE.Mesh(geomTailPlane, matTailPlane);
-  tailPlane.position.set(-40,20,0);
-  tailPlane.castShadow = true;
-  tailPlane.receiveShadow = true;
-  this.mesh.add(tailPlane);
-
-  // Wings
-
-  var geomSideWing = new THREE.BoxGeometry(30,5,120,1,1,1);
-  var matSideWing = new THREE.MeshPhongMaterial({color:Colors.red, shading:THREE.FlatShading});
-  var sideWing = new THREE.Mesh(geomSideWing, matSideWing);
-  sideWing.position.set(0,15,0);
-  sideWing.castShadow = true;
-  sideWing.receiveShadow = true;
-  this.mesh.add(sideWing);
-
-  var geomWindshield = new THREE.BoxGeometry(3,15,20,1,1,1);
-  var matWindshield = new THREE.MeshPhongMaterial({color:Colors.white,transparent:true, opacity:.3, shading:THREE.FlatShading});;
-  var windshield = new THREE.Mesh(geomWindshield, matWindshield);
-  windshield.position.set(5,27,0);
-
-  windshield.castShadow = true;
-  windshield.receiveShadow = true;
-
-  this.mesh.add(windshield);
-
-  var geomPropeller = new THREE.BoxGeometry(20,10,10,1,1,1);
-  geomPropeller.vertices[4].y-=5;
-  geomPropeller.vertices[4].z+=5;
-  geomPropeller.vertices[5].y-=5;
-  geomPropeller.vertices[5].z-=5;
-  geomPropeller.vertices[6].y+=5;
-  geomPropeller.vertices[6].z+=5;
-  geomPropeller.vertices[7].y+=5;
-  geomPropeller.vertices[7].z-=5;
-  var matPropeller = new THREE.MeshPhongMaterial({color:Colors.brown, shading:THREE.FlatShading});
-  this.propeller = new THREE.Mesh(geomPropeller, matPropeller);
-
-  this.propeller.castShadow = true;
-  this.propeller.receiveShadow = true;
-
-  var geomBlade = new THREE.BoxGeometry(1,80,10,1,1,1);
-  var matBlade = new THREE.MeshPhongMaterial({color:Colors.brownDark, shading:THREE.FlatShading});
-  var blade1 = new THREE.Mesh(geomBlade, matBlade);
-  blade1.position.set(8,0,0);
-
-  blade1.castShadow = true;
-  blade1.receiveShadow = true;
-
-  var blade2 = blade1.clone();
-  blade2.rotation.x = Math.PI/2;
-
-  blade2.castShadow = true;
-  blade2.receiveShadow = true;
-
-  this.propeller.add(blade1);
-  this.propeller.add(blade2);
-  this.propeller.position.set(60,0,0);
-  this.mesh.add(this.propeller);
-
-  var wheelProtecGeom = new THREE.BoxGeometry(30,15,10,1,1,1);
-  var wheelProtecMat = new THREE.MeshPhongMaterial({color:Colors.red, shading:THREE.FlatShading});
-  var wheelProtecR = new THREE.Mesh(wheelProtecGeom,wheelProtecMat);
-  wheelProtecR.position.set(25,-20,25);
-  this.mesh.add(wheelProtecR);
-
-  var wheelTireGeom = new THREE.BoxGeometry(24,24,4);
-  var wheelTireMat = new THREE.MeshPhongMaterial({color:Colors.brownDark, shading:THREE.FlatShading});
-  var wheelTireR = new THREE.Mesh(wheelTireGeom,wheelTireMat);
-  wheelTireR.position.set(25,-28,25);
-
-  var wheelAxisGeom = new THREE.BoxGeometry(10,10,6);
-  var wheelAxisMat = new THREE.MeshPhongMaterial({color:Colors.brown, shading:THREE.FlatShading});
-  var wheelAxis = new THREE.Mesh(wheelAxisGeom,wheelAxisMat);
-  wheelTireR.add(wheelAxis);
-
-  this.mesh.add(wheelTireR);
-
-  var wheelProtecL = wheelProtecR.clone();
-  wheelProtecL.position.z = -wheelProtecR.position.z ;
-  this.mesh.add(wheelProtecL);
-
-  var wheelTireL = wheelTireR.clone();
-  wheelTireL.position.z = -wheelTireR.position.z;
-  this.mesh.add(wheelTireL);
-
-  var wheelTireB = wheelTireR.clone();
-  wheelTireB.scale.set(.5,.5,.5);
-  wheelTireB.position.set(-35,-5,0);
-  this.mesh.add(wheelTireB);
-
-  var suspensionGeom = new THREE.BoxGeometry(4,20,4);
-  suspensionGeom.applyMatrix(new THREE.Matrix4().makeTranslation(0,10,0))
-  var suspensionMat = new THREE.MeshPhongMaterial({color:Colors.red, shading:THREE.FlatShading});
-  var suspension = new THREE.Mesh(suspensionGeom,suspensionMat);
-  suspension.position.set(-35,-5,0);
-  suspension.rotation.z = -.3;
-  this.mesh.add(suspension);
-
-  this.pilot = new Pilot();
-  this.pilot.mesh.position.set(-10,27,0);
-  this.mesh.add(this.pilot.mesh);
-
-  this.mesh.castShadow = true;
-  this.mesh.receiveShadow = true;
-
-};
-
-// var rotWorldMatrix;
-
-// // Rotate an object around an arbitrary axis in world space       
-// function rotateAroundWorldAxis(object, axis, radians) {
-//     rotWorldMatrix = new THREE.Matrix4();
-//     rotWorldMatrix.makeRotationAxis(axis.normalize(), radians);
-//     rotWorldMatrix.multiply(object.matrix);        // pre-multiply
-//     object.matrix = rotWorldMatrix;
-//     object.rotation.setFromRotationMatrix(object.matrix);
-// }
-
 function createPlane(){
   airplane = new AirPlane();
   airplane.mesh.scale.set(.3,.3,.3);
-  //airplane.mesh.rotation.y = 1.57;
-  //airplane.mesh.rotateOnWorldAxis(new Vector3(0,0,0), Math.PI/2)
-  //airplane.mesh.rotateY(Math.PI / 2);
-  //rotateAroundWorldAxis(airplane.mesh, new THREE.Vector3(-1,0,0), 90 * Math.PI/180);
   airplane.mesh.rotation.x = 0.2;
   airplane.mesh.lookAt(new THREE.Vector3(0,1,0));
   airplane.mesh.rotation.y = 1.57;
@@ -418,193 +136,9 @@ function createPlane(){
   airplane.mesh.position.y = 930;
   airplane.mesh.position.z = 480;
   scene.add(airplane.mesh);
-  console.log("created " + airplane.mesh.position.x + " " + airplane.mesh.position.y + " " + airplane.mesh.position.z);
+  // console.log("created " + airplane.mesh.position.x + " " + airplane.mesh.position.y + " " + airplane.mesh.position.z);
 }
 
-//Declaration of a Cloud as an object
-Cloud = function(){
-    this.mesh = new THREE.Object3D();
-    
-    var geom = new THREE.SphereGeometry(15,8,4);
-    
-    var mat = new THREE.MeshPhongMaterial({
-     color: 0xffffff});
-    
-    //Random count of blocks
-    var blocksCount = minCloudBlocksCount + Math.floor( Math.random()*(maxCLoudBlocksCount - minCloudBlocksCount));
-    
-    //Creation of each block
-    for(var i = 0; i < blocksCount; i++)
-    {
-     var m = new THREE.Mesh(geom, mat);
-    
-    //Random position for every block
-     m.position.x = i*5 + Math.floor(Math.random() * 5);
-     m.position.y = Math.random()*10;
-     m.position.z = Math.random()*10;
-    
-    //Random rotation for every block
-     m.rotation.z = Math.random() * Math.PI * 2;
-     m.rotation.y = Math.random() * Math.PI * 2;
-    
-    //Random scale too
-     var s = 0.3 + Math.random() * 0.7;
-     m.scale.set(s,s,s);
-     
-     m.castShadow = true;
-     m.receiveShadow = true;
-     
-     this.mesh.add(m)
-    }
-    
-    //Random rotation around Z axis with a PI/6 pitch
-    var rand = 0 - 0.5 + Math.random() * (6 - 0 + 1)
-    rand = Math.round(rand);
-    
-    this.mesh.rotateZ((Math.PI / 6) * rand);
-    
-}
-
-
-
-
-//Declaration of a SideCloud as an object
-//The character (flamingo) is never interacting with them
-//The clouds are staggered (left - rigth side) around the Ground instance with angular difference of 2 'angle' on each side
-SideClouds = function(){
-
-    this.mesh = new THREE.Object3D();
-    
-    //Creaton of left side clouds
-    for(var i = 0; i < sideCloudsCount; i++)
-    {
-        var c = new Cloud();
-        
-        var a = 2 * angle * i;
-        
-        c.mesh.position.z = Math.cos(a) * cloudH;
-        c.mesh.position.y = Math.sin(a) * cloudH;
-        c.mesh.position.x = lCloudsPos;
-        
-        this.mesh.add(c.mesh);
-    }
-    
-    //Creation of rigth side clouds
-    for(var i = 0; i  < sideCloudsCount; i++)
-    {
-        var c = new Cloud();
-        
-        var a = (2 * angle * i) - angle;
-        
-        c.mesh.position.z = Math.cos(a) * cloudH;
-        c.mesh.position.y = Math.sin(a) * cloudH;
-        c.mesh.position.x = rCloudsPos;
-        
-        this.mesh.add(c.mesh);
-    }
-}
-    
-
-
-//Declaration of a cloudRow as an object
-//This object represent a row from 0 to 2 clouds
-//Clouds are added randomly, 'addOrNot' is for this purpose
-cloudRow = function(){
-
-    this.clouds = [];
-    this.addOrNot = 0;
-    
-    this.rot = 0;
-    
-    this.mesh = new THREE.Object3D();
-    
-}
-    
-    //function for removing a row
-cloudRow.prototype.removeRow = function(){
-    this.clouds.splice(0);
-    
-    scene.remove(this.mesh);
-}
-    
-    //Adds clouds
-cloudRow.prototype.addClouds = function(){
-    for(var i = 0; i < 3; i++)
-    {
-      if(this.clouds.length < 2)                                      //no more than 2 clouds
-      {
-          addOrNot = Math.random();
-          if(addOrNot > 0.5){
-              var c = new Cloud();
-          
-              c.mesh.position.x = -cloudPosDelta + cloudPosDelta * i;     //positioning in a row
-          
-              this.mesh.add(c.mesh);
-              this.clouds.push(c);
-          
-          }
-      }
-    }
-}
-
-//Declaration of a Ground as an object
-Ground = function(){
-
-    var geom = new THREE.SphereGeometry(1000,30,30);
-    
-    geom.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI/2));
-    geom.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI/2));
-    
-    var l = geom.vertices.length;
-    
-    this.waves = [];
-    
-    for(var i = 0; i < l; i++){
-    
-    var v = geom.vertices[i];
-    
-    //Each wave is an object with x,y,z coordinations rotaion angel, amplitute and speed of changing
-    this.waves.push({y: v.y,
-                     x: v.x,
-                     z: v.z,
-                     ang: Math.random()*Math.PI*2,
-                     amp: 5 + Math.random() * 15,
-                     speed: 0.016 + Math.random() * 0.042
-                  });
-    }
-    
-    var material = new THREE.MeshPhongMaterial({
-    color: 0x04579A,
-    shading:THREE.FlatShading});
-    
-    this.mesh = new THREE.Mesh(geom,material);
-    
-    
-    this.mesh.recieveShadow = true;
-}
-    
-    //function for waves mooving
-Ground.prototype.moveWaves = function(){
-    
-    var verts = this.mesh.geometry.vertices;
-    var l = verts.length;
-    
-    for(var i = 0; i < l; i++){
-    var v = verts[i];
-    var vprops = this.waves[i];
-    
-    //Assignment to each vertex of the position of each 'wave'
-    v.x = vprops.x + Math.cos(vprops.ang)*vprops.amp;
-    v.y = vprops.y + Math.sin(vprops.ang)*vprops.amp;
-    
-    vprops.ang += vprops.speed;
-    
-    }
-    
-    //if 'false' there is no vertices update
-    this.mesh.geometry.verticesNeedUpdate = true;
-    
-}
 function createScene() {
 
     HEIGHT = window.innerHeight;
@@ -791,11 +325,8 @@ function updateFlamingo(){
 if(airplane){
   if(fPos){
     airplane.mesh.position.x += fPos;
-    //airplane.mesh.rotation.y += fPos/50;
    }
-   //else
-    //airplane.mesh.position.x += 1;
-    //salert(fPos);
+
 
     if(airplane.mesh.position.x > 100)
       airplane.mesh.position.x = 100;
@@ -809,12 +340,9 @@ if(airplane){
 
 //getting data from the accelerometer
 function handleOrientation(event){
-    //alert(event.accelerationIncludingGravity.y);
-    //alert("xc");
+
     fPos = event.accelerationIncludingGravity.y;
 
-
-    //fPos = 0;
 }
 
 //invokes 'init' function when window is loaded
