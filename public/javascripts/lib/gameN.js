@@ -241,7 +241,7 @@ function loop(){
                 document.getElementById('qrCode').setAttribute('style', 'opacity: 0');
             }
 
-            updateFlamingo();                                                 //flamingo behavior	
+            updateAirplane();                                                 //flamingo behavior	
 
             delta = clock.getDelta();
 
@@ -321,7 +321,7 @@ function loop(){
 }
 
 //updates the position of flamingo and keeps it in [-100; 100]
-function updateFlamingo(){
+function updateAirplane(){
 if(airplane){
   if(fPos){
     airplane.mesh.position.x += fPos;
