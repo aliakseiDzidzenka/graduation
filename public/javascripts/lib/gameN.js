@@ -54,7 +54,8 @@ var clock = new THREE.Clock(false);
 clock.start();
 var delta = clock.getDelta();
 var againButton;
-var loader = new THREE.JSONLoader();
+//var loader = new THREE.JSONLoader();
+
 
 var Colors = {
     yellowPlane:0xff9000,
@@ -256,11 +257,42 @@ function loop(){
                 
             sideClouds.mesh.rotation.x += 0.007;
 
+            // var originPoint = airplane.mesh.position.clone();
+            // var localVertex;
+            // var globalVertex;
+            // var directionVector;
+  
+            // for (var i = 0; i < airplane.mesh.children.length; i++)
+            // {   
+            //   if(airplane.mesh.children[i].geometry){
+            //                     for(var vertexIndex = 0; vertexIndex < airplane.mesh.children[i].geometry.vertices.length; vertexIndex++){
+                  
+                  
+            //         localVertex = airplane.mesh.children[i].geometry.vertices[vertexIndex].clone();
+
+            //         globalVertex = localVertex.applyMatrix4( airplane.mesh.matrix );
+            //         directionVector = globalVertex.sub( airplane.mesh.position );
+
+
+                  
+            //     }
+            //   }
+              //alert(airplane.mesh.children[i].geometry.vertices.length);
+
+              
+              //console.log(i);
+              
+
+    
+                
+            } 
             //clouds rotaion and collision detection
             for(var i = 0; i < cloudRowsCount; i++)
             {
+                 cloudRows[i].mesh.getWorldPosition(cloudRowGlobalPosition); 
                 //if any clouds in a row
-                if(cloudRows[i].clouds.length > 0){
+                 if(cloudRows[i].clouds.length > 0){
+
                     cloudRows[i].mesh.getWorldPosition(cloudRowGlobalPosition);                                     //'cloudRowGlobalPosition' holds global position of each row of clouds
                     for(var j = 0; j < cloudRows[i].clouds.length; j++){                                           //cheking collision for every cloud
                         flaPos = flaPos.setFromMatrixPosition( airplane.mesh.matrixWorld );
@@ -276,8 +308,8 @@ function loop(){
                             clock.stop();
                             againButton.style.opacity = 1; 
                         }	
-                    }
-                }
+                     }
+                
                 
                 cloudRows[i].mesh.rotation.x += 0.009;
                 
