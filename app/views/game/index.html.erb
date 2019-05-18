@@ -17,9 +17,8 @@
     <!-- javascript_include_tag 'gameN' -->
 <% end %>
 
-<script>
-    alert('<%= current_user.email %>');
-</script>
+
+<%= current_user.crystal.quantity += 1; current_user.crystal.save; puts current_user.crystal.quantity  %>
 
 <div id="world"></div>
 

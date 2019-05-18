@@ -1,0 +1,2 @@
+class CrystalsController < ApplicationController
+end
