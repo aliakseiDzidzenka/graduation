@@ -1,5 +1,15 @@
 class GameController < ApplicationController
 	before_action :authenticate_user!
-  def index
+	before_action :set_user
+
+	def index
+
   end
+
+  private
+
+  def set_user
+    cookies[:username] = current_user.email || 'guest'
+  end
+
 end

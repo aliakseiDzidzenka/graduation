@@ -70,9 +70,8 @@ var Colors = {
 function init(event){
 
     window.addEventListener('devicemotion', handleOrientation);
-
-
-
+    
+    alert(getCookie('username'));
 
     createScene();
     createLights();
