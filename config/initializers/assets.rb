@@ -13,7 +13,7 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 Rails.application.config.assets.precompile += %w( gameN.js )
-Rails.application.config.assets.precompile += 
-  %w(*.png *.jpg *.jpeg *.gif *.js vendor/somefile.js vendor/somefile.css \
-     vendor/bootstrap/*.js vendor/bootstrap/*.css \
-     vendor/bootstrap/**/*.js vendor/bootstrap/**/*.css) 
+# Rails.application.config.assets.precompile += 
+#   %w(*.png *.jpg *.jpeg *.gif *.js vendor/somefile.js vendor/somefile.css \
+#      vendor/bootstrap/*.js vendor/bootstrap/*.css \
+#      vendor/bootstrap/**/*.js vendor/bootstrap/**/*.css) 
