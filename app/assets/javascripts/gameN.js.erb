@@ -57,6 +57,15 @@ var againButton;
 var loader = new THREE.JSONLoader();
 var crystal;
 
+var particle;
+var particle1;
+var particle2;
+var particle3;
+var particle4;
+var particle5;
+var particle6;
+
+
 var Colors = {
     yellowPlane:0xff9000,
     white:0xd8d0d1,
@@ -132,6 +141,22 @@ function init(event){
     scene.add(crystal.leftPointLight);
     scene.add(crystal.rightPointLight);
     crystal.setLightsPosition();
+
+    // particle = new crystalParticle(5);
+    // particle.mesh.position.x = 0;
+    // particle.mesh.position.y = 900;
+    // particle.mesh.position.z = 480;
+    // scene.add(particle.mesh);
+
+    // particle1 = new crystalParticle(5);
+    // particle1.mesh.position.x = 0;
+    // particle1.mesh.position.y = 900;
+    // particle1.mesh.position.z = 480;
+    // scene.add(particle1.mesh);
+
+
+
+   // particle.explode(particle.mesh.position, 0,7);
    
     loop();
 }
@@ -146,7 +171,7 @@ function createPlane(){
   airplane.mesh.position.x = 0;
   airplane.mesh.position.y = 930;
   airplane.mesh.position.z = 480;
-  //scene.add(airplane.mesh);
+  scene.add(airplane.mesh);
   // console.log("created " + airplane.mesh.position.x + " " + airplane.mesh.position.y + " " + airplane.mesh.position.z);
 }
 
@@ -236,6 +261,9 @@ function loop(){
 
      crystal.mesh.rotation.y += 0.01;
      crystal.mesh.rotation.z -= 0.01;
+
+     // particle.mesh.scale.set(0.7,0.7,0.7);
+     // particle1.mesh.scale.set(0.7,0.7,0.7);
   
     if(airplane){
         if(WIDTH < HEIGHT){
@@ -287,8 +315,12 @@ function loop(){
                             && airplane.mesh.visible === true){
 
                             airplane.mesh.visible = false;
-                            clock.stop();
-                            againButton.style.opacity = 1; 
+                            //crystal.mesh.visible = false
+                            crystal.spawnParticles(10);
+                            // particle.explode(particle.mesh.position, 0,7);
+                            // particle1.explode(particle1.mesh.position, 0,7);
+                            //clock.stop();
+                            //againButton.style.opacity = 1; 
                         }   
                     }
                 }

@@ -96,3 +96,25 @@ Crystal.prototype.setLightsPosition = function(){
     
     
 }
+
+Crystal.prototype.spawnParticles = function(count){
+    this.particles = [];
+    for(var i = 0; i < count; i++){
+        rad = getRandomValue(this.radius/6, this.radius/3);
+        this.particles.push(new crystalParticle(rad))
+
+        //    SCENE
+        scene.add(this.particles[i].mesh);
+        //console.log(particles[i].mesh.position);
+    }
+
+
+    for(var i = 0; i < count; i++){
+        this.particles[i].explode(this.mesh.position, 0.7);
+        //console.log(particles[i].mesh.visible);
+    }
+}
+
+function getRandomValue(min, max) {
+  return Math.random() * (max - min) + min;
+}
