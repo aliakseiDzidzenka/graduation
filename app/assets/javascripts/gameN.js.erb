@@ -55,6 +55,7 @@ clock.start();
 var delta = clock.getDelta();
 var againButton;
 var loader = new THREE.JSONLoader();
+var crystal;
 
 var Colors = {
     yellowPlane:0xff9000,
@@ -122,6 +123,16 @@ function init(event){
     }
     document.body.appendChild(againButton);
 
+    crystal = new Crystal(25);
+    crystal.mesh.position.x = 0;
+    crystal.mesh.position.y = 900;
+    crystal.mesh.position.z = 480;
+    scene.add(crystal.mesh);
+    scene.add(crystal.topPointLight);
+    scene.add(crystal.leftPointLight);
+    scene.add(crystal.rightPointLight);
+    crystal.setLightsPosition();
+   
     loop();
 }
 
@@ -135,7 +146,7 @@ function createPlane(){
   airplane.mesh.position.x = 0;
   airplane.mesh.position.y = 930;
   airplane.mesh.position.z = 480;
-  scene.add(airplane.mesh);
+  //scene.add(airplane.mesh);
   // console.log("created " + airplane.mesh.position.x + " " + airplane.mesh.position.y + " " + airplane.mesh.position.z);
 }
 
@@ -155,7 +166,7 @@ function createScene() {
     nearPlane,
     farPlane
     );
-    scene.fog = new THREE.Fog(0x9290a6, 100,950);
+    //scene.fog = new THREE.Fog(0x03f7eb, 500,950);
     camera.position.x = 0;
     camera.position.y = 950;
     camera.position.z = 700;
@@ -222,6 +233,9 @@ function loop(){
     HEIGHT = window.innerHeight;    
 
      requestAnimationFrame(loop);                                      //update an animation before the next repaint
+
+     crystal.mesh.rotation.y += 0.01;
+     crystal.mesh.rotation.z -= 0.01;
   
     if(airplane){
         if(WIDTH < HEIGHT){

@@ -5,7 +5,7 @@ Cloud = function(){
     var geom = new THREE.SphereGeometry(15,8,4);
     
     var mat = new THREE.MeshPhongMaterial({
-     color: 0xffffff});
+     color: 0xa9bfcd});
     
     //Random count of blocks
     var blocksCount = minCloudBlocksCount + Math.floor( Math.random()*(maxCLoudBlocksCount - minCloudBlocksCount));
