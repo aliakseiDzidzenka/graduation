@@ -102,7 +102,9 @@ Crystal.prototype.spawnParticles = function(count){
     for(var i = 0; i < count; i++){
         rad = getRandomValue(this.radius/6, this.radius/3);
         this.particles.push(new crystalParticle(rad))
-
+        this.particles[i].mesh.position.x = this.mesh.position.x;
+        this.particles[i].mesh.position.y = this.mesh.position.y;
+        this.particles[i].mesh.position.z = this.mesh.position.z;
         //    SCENE
         scene.add(this.particles[i].mesh);
         //console.log(particles[i].mesh.position);
