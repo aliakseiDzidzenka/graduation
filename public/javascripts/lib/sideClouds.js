@@ -12,9 +12,9 @@ SideClouds = function(){
         
         var a = 2 * angle * i;
         
-        c.mesh.position.z = Math.cos(a) * cloudH;
-        c.mesh.position.y = Math.sin(a) * cloudH;
-        c.mesh.position.x = lCloudsPos;
+        c.mesh.position.z = Math.cos(a) * rowH;
+        c.mesh.position.y = Math.sin(a) * rowH;
+        c.mesh.position.x = leftSideCloudsPos;
         
         this.mesh.add(c.mesh);
     }
@@ -26,9 +26,9 @@ SideClouds = function(){
         
         var a = (2 * angle * i) - angle;
         
-        c.mesh.position.z = Math.cos(a) * cloudH;
-        c.mesh.position.y = Math.sin(a) * cloudH;
-        c.mesh.position.x = rCloudsPos;
+        c.mesh.position.z = Math.cos(a) * rowH;
+        c.mesh.position.y = Math.sin(a) * rowH;
+        c.mesh.position.x = rightSideCloudsPos;
         
         this.mesh.add(c.mesh);
     }

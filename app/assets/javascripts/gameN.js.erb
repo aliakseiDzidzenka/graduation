@@ -21,16 +21,16 @@ var isMobile = {
 
 if (true) {
 var airplane;
-var cloudH = 1046;
-var lCloudsPos = -250;
-var rCloudsPos = - lCloudsPos;
+var rowH = 1046;
+var leftSideCloudsPos = -250;
+var rightSideCloudsPos = - leftSideCloudsPos;
 var sideCloudsCount = 12;
-var cloudPosDelta = 85;
+var objectPosDelta = 85;
 var scene,
     camera, fieldOfView, aspectRatio, nearPlane, farPlane,
     renderer, container,  mixer;
 //var flamingo;
-var fPos;
+var planePos;
 var HEIGHT, WIDTH;
 var updateOrNot = true;
 var  hemisphereLight, shadowLight;
@@ -38,13 +38,13 @@ var ground;
 var score = 0;
 var globalRot = 0.785;
 var rotUpdate = 0.008;
-var flaPos = new THREE.Vector3();
+var planePosVector = new THREE.Vector3();
 var row;
-var cloudRows = [];
-var cloudRowsCount = 8;
-var cloudPosDelta = 85;
-var cloudRowGlobalPosition = new THREE.Vector3();
-var cloudGlobalPosition = new THREE.Vector3();
+var gameObjectsRows = [];
+var gameObjectsRowsCount = 8;
+//var cloudPosDelta = 85;
+var gameObjectsRowGlobalPosition = new THREE.Vector3();
+var objectGlobalPosition = new THREE.Vector3();
 var sideClouds;
 var sideCloudsCount = 12;
 var minCloudBlocksCount = 5;
@@ -54,7 +54,12 @@ var clock = new THREE.Clock(false);
 clock.start();
 var delta = clock.getDelta();
 var againButton;
-//var loader = new THREE.JSONLoader();
+var loader = new THREE.JSONLoader();
+var crystal;
+var totalCrystals = 0;
+var crystalsCookie = "crystals";
+var crystalsTaken;
+
 
 
 var Colors = {
@@ -70,7 +75,10 @@ var Colors = {
 function init(event){
 
     window.addEventListener('devicemotion', handleOrientation);
-    
+
+
+    document.cookie = crystalsCookie + "=" + totalCrystals.toString();
+
     createScene();
     createLights();
     createGround();
@@ -79,26 +87,46 @@ function init(event){
 
 
     //first initialising of each cloud row
-    for(var i = 0; i < cloudRowsCount; i++){
-    cloudRows[i] = new cloudRow();
+    for(var i = 0; i < gameObjectsRowsCount; i++){
+    gameObjectsRows[i] = new gameObjectsRow();
     
-    cloudRows[i].addClouds();
-    cloudRows[i].rot = globalRot * i;
+    gameObjectsRows[i].addClouds();
+    gameObjectsRows[i].rot = globalRot * i;
     
-    scene.add(cloudRows[i].mesh);
-    }
+    scene.add(gameObjectsRows[i].mesh);
+
+    // for(var j = 0; j < gameObjectsRows[i].clouds.length; j++){
+    //     if(gameObjectsRows[i].clouds[j].name = "crystal"){
+    //        //scene.add(gameObjectsRows[i].clouds[j].topPointLight);
+    //        // scene.add(gameObjectsRows[i].clouds[j].leftPointLight);
+    //        // scene.add(gameObjectsRows[i].clouds[j].righPointtLight);
+
+    //     }
+    // }
+}
 
 
     //div element for score displaying
     scoreText = document.createElement('div');
     scoreText.style.position = 'absolute';
+    scoreText.setAttribute('id', 'score-div');
 
     scoreText.style.width = 150;
     scoreText.style.height = 100;
-    scoreText.innerHTML = "Flight time is 0 seconds";
+    //scoreText.innerHTML = "Flight time is 0 seconds";
     scoreText.style.top = 50 + 'px';
     scoreText.style.left = 50 + 'px';
     document.body.appendChild(scoreText);
+
+    timeSpend = document.createElement('p')
+    timeSpend.innerHTML = "Time: 0 sec.";
+    timeSpend.setAttribute('id', 'time');
+    document.getElementById('score-div').appendChild(timeSpend);
+
+    crystalsTaken = document.createElement('p')
+    crystalsTaken.innerHTML = "Crystals: 0";
+    crystalsTaken.setAttribute('id', 'crystals');
+    document.getElementById('score-div').appendChild(crystalsTaken);
 
     againButton = document.createElement('button');
     againButton.style.opacity = 0;
@@ -109,7 +137,8 @@ function init(event){
         if(this.style.opacity == 1){
             againButton.style.opacity = 0;
             score = 0;
-            scoreText.innerHTML = "Flight time is " + 0 + " seconds.";
+            timeSpend.innerHTML = "Time: 0 sec.";
+            crystalsTaken.innerHTML = "Crystals: 0";
             rotUpdate = 0.008;
             clock = new THREE.Clock(false);
             clock.start();
@@ -120,6 +149,7 @@ function init(event){
     }
     document.body.appendChild(againButton);
 
+   
     loop();
 }
 
@@ -153,7 +183,7 @@ function createScene() {
     nearPlane,
     farPlane
     );
-    scene.fog = new THREE.Fog(0x9290a6, 100,950);
+    //scene.fog = new THREE.Fog(0x03f7eb, 500,950);
     camera.position.x = 0;
     camera.position.y = 950;
     camera.position.z = 700;
@@ -217,9 +247,15 @@ function loop(){
 
 
     WIDTH = window.innerWidth;
-    HEIGHT = window.innerHeight;  
+    HEIGHT = window.innerHeight;    
 
      requestAnimationFrame(loop);                                      //update an animation before the next repaint
+
+     //crystal.mesh.rotation.y += 0.01;
+     //crystal.mesh.rotation.z -= 0.01;
+
+     // particle.mesh.scale.set(0.7,0.7,0.7);
+     // particle1.mesh.scale.set(0.7,0.7,0.7);
   
     if(airplane){
         if(WIDTH < HEIGHT){
@@ -239,7 +275,7 @@ function loop(){
                 document.getElementById('qrCode').setAttribute('style', 'opacity: 0');
             }
 
-            updateAirplane();                                                 //flamingo behavior 
+            updateAirplane();                                                 //flamingo behavior   
 
             delta = clock.getDelta();
 
@@ -254,80 +290,120 @@ function loop(){
                 
             sideClouds.mesh.rotation.x += 0.007;
 
-            // var originPoint = airplane.mesh.position.clone();
-            // var localVertex;
-            // var globalVertex;
-            // var directionVector;
-  
-            // for (var i = 0; i < airplane.mesh.children.length; i++)
-            // {   
-            //   if(airplane.mesh.children[i].geometry){
-            //                     for(var vertexIndex = 0; vertexIndex < airplane.mesh.children[i].geometry.vertices.length; vertexIndex++){
-                  
-                  
-            //         localVertex = airplane.mesh.children[i].geometry.vertices[vertexIndex].clone();
-
-            //         globalVertex = localVertex.applyMatrix4( airplane.mesh.matrix );
-            //         directionVector = globalVertex.sub( airplane.mesh.position );
-
-
-                  
-            //     }
-            //   }
-              //alert(airplane.mesh.children[i].geometry.vertices.length);
-
-              
-              //console.log(i);
-              
-
-    
-                
-            } 
             //clouds rotaion and collision detection
-            for(var i = 0; i < cloudRowsCount; i++)
+            for(var i = 0; i < gameObjectsRowsCount; i++)
             {
-                 cloudRows[i].mesh.getWorldPosition(cloudRowGlobalPosition); 
+
+
+
                 //if any clouds in a row
-                 if(cloudRows[i].clouds.length > 0){
+                if(gameObjectsRows[i].clouds.length > 0){
+                    gameObjectsRows[i].mesh.getWorldPosition(gameObjectsRowGlobalPosition);                                     //'gameObjectsRowGlobalPosition' holds global position of each row of clouds
+                    for(var j = 0; j < gameObjectsRows[i].clouds.length; j++){                                           //cheking collision for every cloud
+                        
+                          //crystal.mesh.rotation.y += 0.01;
+                          //crystal.mesh.rotation.z -= 0.01;
 
-                    cloudRows[i].mesh.getWorldPosition(cloudRowGlobalPosition);                                     //'cloudRowGlobalPosition' holds global position of each row of clouds
-                    for(var j = 0; j < cloudRows[i].clouds.length; j++){                                           //cheking collision for every cloud
-                        flaPos = flaPos.setFromMatrixPosition( airplane.mesh.matrixWorld );
+                        planePosVector = planePosVector.setFromMatrixPosition( airplane.mesh.matrixWorld );
 
-                        cloudRows[i].clouds[j].mesh.getWorldPosition(cloudGlobalPosition);                          //'cloudGlobalPosition' holds global position of each cloud
-                
+                        gameObjectsRows[i].clouds[j].mesh.getWorldPosition(objectGlobalPosition);                          //'objectGlobalPosition' holds global position of each cloud
+
+                        if(gameObjectsRows[i].clouds[j].name == "crystal"){
+                            gameObjectsRows[i].clouds[j].mesh.rotation.y += 0.01;
+                            gameObjectsRows[i].clouds[j].mesh.rotation.z -= 0.01;
+                            if(objectGlobalPosition.y > 800 && gameObjectsRows[i].clouds[j].topPointLight){
+                                gameObjectsRows[i].clouds[j].setLightsPosition(objectGlobalPosition);
+                                // gameObjectsRows[i].clouds[j].topPointLight.position.set(objectGlobalPosition.x,
+                                //     objectGlobalPosition.y + 70,
+                                //     objectGlobalPosition.z
+                                //     );
+                                // gameObjectsRows[i].clouds[j].leftPointLight.position.set(objectGlobalPosition.x - 44,
+                                //     objectGlobalPosition.y,
+                                //     objectGlobalPosition.z + 18
+                                //     );
+                                // gameObjectsRows[i].clouds[j].rightPointLight.position.set(objectGlobalPosition.x + 44,
+                                //     objectGlobalPosition.y,
+                                //     objectGlobalPosition.z + 18
+                                //     );
+
+                               // scene.add(gameObjectsRows[i].clouds[j].topPointLight);
+                                scene.add(gameObjectsRows[i].clouds[j].leftPointLight); 
+                                scene.add(gameObjectsRows[i].clouds[j].rightPointLight);     
+                            }
+                            if(objectGlobalPosition.y < 900){
+                                scene.remove(gameObjectsRows[i].clouds[j].topPointLight);
+                                scene.remove(gameObjectsRows[i].clouds[j].leftPointLight);
+                                scene.remove(gameObjectsRows[i].clouds[j].rightPointLight);
+                            }
+                            //gameObjectsRows[i].clouds[j].setLightsPosition(objectGlobalPosition);
+                        }
+                        
                             //collision detection
-                        if(flaPos.distanceTo(cloudGlobalPosition) < 20                                              
-                            && cloudRowGlobalPosition.y > 150                                                       //this line removes the bug of collision with newly created clouds 
+                        if(planePosVector.distanceTo(objectGlobalPosition) < 40                                              
+                            && gameObjectsRowGlobalPosition.y > 150                                                       //this line removes the bug of collision with newly created clouds 
                             && airplane.mesh.visible === true){
 
-                            airplane.mesh.visible = false;
-                            clock.stop();
-                            againButton.style.opacity = 1; 
-                        } 
-                     }
-                
-                
-                cloudRows[i].mesh.rotation.x += 0.009;
-                
-                cloudRows[i].rot += rotUpdate;
+                            
+                            if(gameObjectsRows[i].clouds[j].name == "crystal"){
 
-            //removes a cloud row every lap and makes new one to change a position of obstacles
-                if(cloudRows[i].rot >= 6.18)
-                {
-                cloudRows[i].removeRow();
-                cloudRows[i] = new cloudRow();
-            
-                cloudRows[i].addClouds();
+
+                                gameObjectsRows[i].clouds[j].mesh.visible = false;
+                                
+
+                                if(gameObjectsRows[i].clouds[j].particlesSpawned == false){
+                                    gameObjectsRows[i].clouds[j].spawnParticles(10, airplane);
+                                    totalCrystals += 1;
+                                    crystalsTaken.innerHTML = "Crystals: " + totalCrystals + ".";
+                                    //console.log(gameObjectsRows[i].clouds[j].topPointLight.position);
+                                    //console.log(objectGlobalPosition);
+                                    //console.log(document.getElementsByTagName("input")[0].value);
+                                    
+                                    // document.cookie = crystalsCookie + "=" + totalCrystals.toString();
+                                    // console.log(getCookie("crystals"));
+
+
+
+                                }
+                            }
+                            else{
+                                airplane.mesh.visible = false;
+                                document.getElementById('crystal_quantity').value = totalCrystals;
+                                
+                                document.getElementsByTagName("form")[0].submit();
+                                
+                                totalCrystals = 0;
+                                clock.stop();
+                                againButton.style.opacity = 1; 
+                            }
+                        }   
+                    }
+                }
+                
+
+                if(airplane.mesh.visible){
+
+                    gameObjectsRows[i].mesh.rotation.x += 0.009;
+                
                     
-                cloudRows[i].rot = 0;
-                scene.add(cloudRows[i].mesh);
+                }
+                gameObjectsRows[i].rot += rotUpdate;
+                
+            //removes a cloud row every lap and makes new one to change a position of obstacles
+                if(gameObjectsRows[i].rot >= 6.18)
+                {
+                gameObjectsRows[i].removeRow();
+                gameObjectsRows[i] = new gameObjectsRow();
+            
+                gameObjectsRows[i].addClouds();
+                    
+                gameObjectsRows[i].rot = 0;
+                scene.add(gameObjectsRows[i].mesh);
                     
                 }
 
             //circular motion of clouds
-                cloudRows[i].mesh.position.z = cloudH * Math.cos(cloudRows[i].rot);
-                cloudRows[i].mesh.position.y = -cloudH * Math.sin(cloudRows[i].rot);
+                gameObjectsRows[i].mesh.position.z = rowH * Math.cos(gameObjectsRows[i].rot);
+                gameObjectsRows[i].mesh.position.y = -rowH * Math.sin(gameObjectsRows[i].rot);
 
            }
 
@@ -337,7 +413,7 @@ function loop(){
                     score = Math.floor(clock.elapsedTime);
                 if(score > Math.floor(clock.elapsedTime))
                     score += score.Math.floor(clock.elapsedTime);
-                scoreText.innerHTML = "Flight time is " + score + " seconds.";
+                timeSpend.innerHTML = "Time: " + score + " sec.";
             }
         
             if(score % 4 === 0){
@@ -352,8 +428,8 @@ function loop(){
 //updates the position of flamingo and keeps it in [-100; 100]
 function updateAirplane(){
 if(airplane){
-  if(fPos){
-    airplane.mesh.position.x += fPos;
+  if(planePos){
+    airplane.mesh.position.x += planePos;
    }
 
 
@@ -362,7 +438,7 @@ if(airplane){
     else if(airplane.mesh.position.x < -100)
       airplane.mesh.position.x = -100;
 
-    //alert("x " + airplane.mesh.position.x + " y " + airplane.mesh.position.y + " z " + airplane.mesh.position.z +" "+ flaPos)
+    //alert("x " + airplane.mesh.position.x + " y " + airplane.mesh.position.y + " z " + airplane.mesh.position.z +" "+ planePosVector)
   }
 }
 
@@ -370,7 +446,7 @@ if(airplane){
 //getting data from the accelerometer
 function handleOrientation(event){
 
-    fPos = event.accelerationIncludingGravity.y;
+    planePos = event.accelerationIncludingGravity.y;
 
 }
 
