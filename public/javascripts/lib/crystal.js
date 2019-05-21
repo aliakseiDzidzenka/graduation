@@ -4,7 +4,7 @@ Crystal = function(radius){
     this.name = "crystal";
     this.radius = radius;
     this.particlesSpawned = false;
-    
+    this.lightsAdded = false;
     var geom = new THREE.DodecahedronGeometry(radius);
     
     var mat = new THREE.MeshStandardMaterial({
@@ -18,15 +18,18 @@ Crystal = function(radius){
 
     this.topPointLight = new THREE.PointLight( 0xffffff, 1, 100 );
     //this.topPointLight.position.set( 0, 980, 480 );
-    //scene.add( pointLight );
+    // this.topPointLight.position.set(this.mesh.position.x,
+    //                                 this.mesh.position.y + this.radius * 3.2,
+    //                                 this.mesh.position.z);
+    //scene.add( this.topPointLight );
 
     // var sphereSize = 1;
-    // var pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
-    //scene.add( pointLightHelper );
+    // var pointLightHelper = new THREE.PointLightHelper( this.topPointLight, sphereSize );
+    // scene.add( pointLightHelper );
 
     this.rightPointLight = new THREE.PointLight( 0xff0f80, 1, 100 );
     //pointLight.position.set( 50, 900, 500 );
-    //scene.add( pointLight );
+    //scene.add( this.rightPointLight );
 
     //var spotLight = new THREE.SpotLight( 0x0582ca,1,80, Math.PI, 0.8);
     //spotLight.position.set( 40, 920, 500 );
@@ -38,7 +41,7 @@ Crystal = function(radius){
 
     this.leftPointLight = new THREE.PointLight( 0xff9000, 1, 100 );
     //pointLight.position.set( -50, 900, 500 );
-    //scene.add( pointLight );
+    //scene.add( this.leftPointLight );
 
     //var sphereSize = 1;
     //var pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
@@ -82,18 +85,18 @@ Crystal = function(radius){
     
 }
 
-Crystal.prototype.setLightsPosition = function(){
-    this.topPointLight.position.set(this.mesh.position.x,
-                                    this.mesh.position.y + this.radius * 3.2,
-                                    this.mesh.position.z);
+Crystal.prototype.setLightsPosition = function(vector){
+    // this.topPointLight.position.set(vector.x,
+    //                                 vector.y + this.radius * 3.2,
+    //                                 vector.z);
 
-    this.rightPointLight.position.set(this.mesh.position.x + this.radius * 2,
-                                    this.mesh.position.y,
-                                    this.mesh.position.z + this.radius * 0.8);
+    this.rightPointLight.position.set(vector.x + this.radius * 2,
+                                     vector.y,
+                                     vector.z + this.radius * 0.8);
 
-    this.leftPointLight.position.set(this.mesh.position.x - this.radius * 2,
-                                    this.mesh.position.y,
-                                    this.mesh.position.z + this.radius * 0.8);
+    this.leftPointLight.position.set(vector.x - this.radius * 2,
+                                     vector.y,
+                                     vector.z + this.radius * 0.8);
     
     
 }

@@ -9,6 +9,16 @@ class GameController < ApplicationController
 		@key = "you will not hack us"
   end
 
+  def plane
+  	puts "*****"
+  	puts cookies[:plane]
+  	puts "*****"
+  end
+
+  def test
+  	
+  end
+
   private
 
   def set_user
