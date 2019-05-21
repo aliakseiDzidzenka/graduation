@@ -1,5 +1,6 @@
 //Declaration of a Cloud as an object
 Cloud = function(){
+    this.name = "cloud";
     this.mesh = new THREE.Object3D();
     
     var geom = new THREE.SphereGeometry(15,8,4);

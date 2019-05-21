@@ -1,12 +1,12 @@
 <!-- <h1>Game#index</h1>
-<p>Find me in app/views/game/index.html.erb</p>
- -->
+<p>Find me in app/views/game/index.html.erb</p> -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
 <script type="text/javascript" src="/javascripts/lib/_three.min.js"></script>
 <script type="text/javascript" src="/javascripts/lib/pilot.js"></script>
 <script type="text/javascript" src="/javascripts/lib/airplane.js"></script>
 <script type="text/javascript" src="/javascripts/lib/cloud.js"></script>
-<script type="text/javascript" src="/javascripts/lib/cloudRow.js"></script>
+<script type="text/javascript" src="/javascripts/lib/gameObjectsRow.js"></script>
 <script type="text/javascript" src="/javascripts/lib/sideClouds.js"></script>
 <script type="text/javascript" src="/javascripts/lib/ground.js"></script>
 <script type="text/javascript" src="/javascripts/lib/crystalParticle.js"></script>
@@ -16,9 +16,7 @@
 <%= javascript_include_tag 'gameN' %>
 <!-- <script src="/javascripts/lib/gameN.js.erb"></script> -->
 
-<%= content_for :javascripts do %>
-    <!-- javascript_include_tag 'gameN' -->
-<% end %>
+
 
 
  <!--current_user.crystal.quantity += 1; current_user.crystal.save; puts current_user.crystal.quantity -->
@@ -33,14 +31,13 @@
                 <h1>OOOPS...</h1>
                 <p>I'm sorry but this game is only for mobile devices</p>
                 <p>Try using your smartphone</p>
-                <!-- <p>Try using your smartphone and scan this QR code to quickly jump to the page with the game</p> -->
+
             </figcaption>
         </figure>
     </div>
     <div id="rotate">
       <figure>
             <!--<img src="img/rotate.png" alt="Rotate your device to the left" width="200" height="200">-->
-            <%= image_tag('rotate.png', size: '200x200', alt: 'rotae your devise') %>
             <figcaption>
                 <p>PAUSE</p>
                 <p>To start or continue the game rotate your phone to the left<p>
@@ -49,3 +46,15 @@
             </figcaption>
       </figure>
     </div>
+
+<%= form_for @crystal do |f| %>
+  <%= f.label 'Quantity' %><br>
+  <%= f.number_field :quantity %><br>
+
+  <%= f.submit "Submit Crystal" %>
+<% end %>
+
+
+
+
+

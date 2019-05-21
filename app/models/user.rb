@@ -5,4 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_one :crystal
+  after_create :add_crystals
+
+
+  def add_crystals
+  	self.crystal = Crystal.new
+  end
 end

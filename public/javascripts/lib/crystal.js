@@ -1,8 +1,9 @@
 //Declaration of a Cloud as an object
 Crystal = function(radius){
     //this.mesh = new THREE.Object3D();
-
+    this.name = "crystal";
     this.radius = radius;
+    this.particlesSpawned = false;
     
     var geom = new THREE.DodecahedronGeometry(radius);
     
@@ -97,24 +98,28 @@ Crystal.prototype.setLightsPosition = function(){
     
 }
 
-Crystal.prototype.spawnParticles = function(count){
+Crystal.prototype.spawnParticles = function(count, character){
+    //console.log("spawned");
     this.particles = [];
     for(var i = 0; i < count; i++){
         rad = getRandomValue(this.radius/6, this.radius/3);
         this.particles.push(new crystalParticle(rad))
-        this.particles[i].mesh.position.x = this.mesh.position.x;
-        this.particles[i].mesh.position.y = this.mesh.position.y;
-        this.particles[i].mesh.position.z = this.mesh.position.z;
+        this.particles[i].mesh.position.x = character.mesh.position.x;
+        this.particles[i].mesh.position.y = character.mesh.position.y;
+        this.particles[i].mesh.position.z = character.mesh.position.z;
         //    SCENE
+        //console.log(this.particles[i].mesh.position);
         scene.add(this.particles[i].mesh);
+
         //console.log(particles[i].mesh.position);
     }
 
 
     for(var i = 0; i < count; i++){
-        this.particles[i].explode(this.mesh.position, 0.7);
+        this.particles[i].explode(character.mesh.position, 0.7);
         //console.log(particles[i].mesh.visible);
     }
+    this.particlesSpawned = true;
 }
 
 function getRandomValue(min, max) {
