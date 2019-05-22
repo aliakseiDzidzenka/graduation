@@ -12,12 +12,12 @@
 //
 //= require rails-ujs
 //= require activestorage
-
-//= require_tree .
-
+//= require turbolinks
 //= require jquery3
 //= require popper
-//= require bootstrap-sprockets
+//= bootstrap-sprockets
+//= require_tree .
 
-$(".alert" ).fadeOut(3000);
-$(".notice" ).fadeOut(3000);
+
+
+

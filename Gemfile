@@ -4,12 +4,16 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.5.1'
 
 gem 'rename'
-gem 'bootstrap', '~> 4.0.0'
+
+gem 'popper_js'
+gem 'bootstrap'
 gem 'jquery-rails'  
 
 gem 'simple_form'
 
 gem 'devise'
+
+gem 'turbolinks'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
