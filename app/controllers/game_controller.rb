@@ -6,11 +6,11 @@ class GameController < ApplicationController
 	def index
 		@user = current_user
 		@crystal = current_user.crystal
-		@key = "you will not hack us"
+		#@key = "you will not hack us"
   end
 
   def plane
-  	cookies[:selected] ||= 'default'
+  	
     
   end
 
@@ -23,6 +23,7 @@ class GameController < ApplicationController
   def set_user
     cookies[:username] = current_user.email || 'guest'
     cookies[:user_id] = current_user.id || nil
+    cookies[:selected] ||= 'default'
   end
 
 end
