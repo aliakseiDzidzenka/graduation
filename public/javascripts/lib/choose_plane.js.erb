@@ -24,6 +24,8 @@ var gameObjectsRowsCount = 8;
 var s = -1 * Math.PI / 2;
 var controls;
 
+var nextButton, prevButton;
+
 
 
 function createScene() {
@@ -97,8 +99,32 @@ function init(event){
     createLights();
 
     createPlane();
-    //createPlane2();
+    createPlane2(WIDTH + 100);
 
+    prevButton = document.createElement('button');
+    prevButton.setAttribute('id', 'prev');
+    prevButton.textContent = 'Prev';
+    prevButton.style.position = 'absolute';
+
+
+
+
+    nextButton = document.createElement('button');
+    nextButton.setAttribute('id', 'next');
+    nextButton.textContent = 'Next';
+    nextButton.style.position = 'absolute';
+
+    document.body.appendChild(nextButton);
+    document.body.appendChild(prevButton);
+
+
+     prevButton.onclick = function(){
+
+            //alert("prev");
+            //airplane.mesh.visible = true;
+            airplane.mesh.position.x = WIDTH - 100;
+            airplane2.mesh.position.x = 0;
+    }
     // //div element for score displaying
     // scoreText = document.createElement('div');
     // scoreText.style.position = 'absolute';
@@ -140,21 +166,21 @@ function createPlane(){
   airplane.mesh.lookAt(new THREE.Vector3(0,0,0));
   airplane.mesh.rotation.y = Math.PI + 0.5;
   //airplane.mesh.rotation.x = 1.57;
-  airplane.mesh.position.x = -50;
+  airplane.mesh.position.x = 0;
   airplane.mesh.position.y = 0;
   airplane.mesh.position.z = 0;
   scene.add(airplane.mesh);
   // console.log("created " + airplane.mesh.position.x + " " + airplane.mesh.position.y + " " + airplane.mesh.position.z);
 }
 
-function createPlane2(){
+function createPlane2(x){
   airplane2 = new AirPlane2();
   airplane2.mesh.scale.set(.3,.3,.3);
   //airplane.mesh.rotation.x = 0.2;
   airplane2.mesh.lookAt(new THREE.Vector3(0,0,0));
   airplane2.mesh.rotation.y = Math.PI + 0.5;
   //airplane.mesh.rotation.x = 1.57;
-  airplane2.mesh.position.x = 50;
+  airplane2.mesh.position.x = x;
   airplane2.mesh.position.y = 0;
   airplane2.mesh.position.z = 0;
   scene.add(airplane2.mesh);
@@ -162,6 +188,20 @@ function createPlane2(){
 }
 
 function loop() {
+
+    WIDTH = window.innerWidth;
+    HEIGHT = window.innerHeight;
+    if(WIDTH < HEIGHT){
+            
+            container.setAttribute('style', 'opacity: 0');
+            document.getElementById('rotate').setAttribute('style', 'opacity: 1');
+            //document.getElementById('qrCode').setAttribute('style', 'opacity: 0');
+            //return;
+    }
+    else{
+        container.setAttribute('style', 'opacity: 1');
+        document.getElementById('rotate').setAttribute('style', 'opacity: 0');
+    }
     requestAnimationFrame( loop );
 
     airplane.pilot.updateHairs();
@@ -170,11 +210,13 @@ function loop() {
     s+=0.01;
     airplane.mesh.rotation.y += 0.050;
 
-    // airplane2.pilot.updateHairs();
-    // airplane2.propeller.rotation.x += 0.3;
-    // airplane2.mesh.position.y += Math.sin(s*5) / 5;
-    // //s+=0.01;
-    // airplane2.mesh.rotation.y += 0.009;
+    airplane2.pilot.updateHairs();
+    airplane2.propeller.rotation.x += 0.3;
+    airplane2.mesh.position.y += Math.sin(s*5) / 5;
+    //s+=0.01;
+    airplane2.mesh.rotation.y += 0.009;
+    
+
     //controls.update();
 
     renderer.render( scene, camera );
