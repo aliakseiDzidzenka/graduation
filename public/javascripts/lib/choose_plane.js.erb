@@ -97,7 +97,7 @@ function init(event){
     createLights();
 
     createPlane();
-    createPlane2();
+    //createPlane2();
 
     // //div element for score displaying
     // scoreText = document.createElement('div');
@@ -165,16 +165,16 @@ function loop() {
     requestAnimationFrame( loop );
 
     airplane.pilot.updateHairs();
-    airplane.propeller.rotation.x += 0.3;
+    airplane.propeller.rotation.x += 0.6;
     airplane.mesh.position.y += Math.sin(s*5) / 5;
     s+=0.01;
-    airplane.mesh.rotation.y += 0.009;
+    airplane.mesh.rotation.y += 0.050;
 
-    airplane2.pilot.updateHairs();
-    airplane2.propeller.rotation.x += 0.3;
-    airplane2.mesh.position.y += Math.sin(s*5) / 5;
-    //s+=0.01;
-    airplane2.mesh.rotation.y += 0.009;
+    // airplane2.pilot.updateHairs();
+    // airplane2.propeller.rotation.x += 0.3;
+    // airplane2.mesh.position.y += Math.sin(s*5) / 5;
+    // //s+=0.01;
+    // airplane2.mesh.rotation.y += 0.009;
     //controls.update();
 
     renderer.render( scene, camera );

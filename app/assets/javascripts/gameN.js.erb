@@ -312,30 +312,30 @@ function loop(){
                         if(gameObjectsRows[i].clouds[j].name == "crystal"){
                             gameObjectsRows[i].clouds[j].mesh.rotation.y += 0.01;
                             gameObjectsRows[i].clouds[j].mesh.rotation.z -= 0.01;
-                            if(objectGlobalPosition.y > 800 && gameObjectsRows[i].clouds[j].topPointLight){
-                                gameObjectsRows[i].clouds[j].setLightsPosition(objectGlobalPosition);
-                                // gameObjectsRows[i].clouds[j].topPointLight.position.set(objectGlobalPosition.x,
-                                //     objectGlobalPosition.y + 70,
-                                //     objectGlobalPosition.z
-                                //     );
-                                // gameObjectsRows[i].clouds[j].leftPointLight.position.set(objectGlobalPosition.x - 44,
-                                //     objectGlobalPosition.y,
-                                //     objectGlobalPosition.z + 18
-                                //     );
-                                // gameObjectsRows[i].clouds[j].rightPointLight.position.set(objectGlobalPosition.x + 44,
-                                //     objectGlobalPosition.y,
-                                //     objectGlobalPosition.z + 18
-                                //     );
+                            // if(objectGlobalPosition.y > 800 && gameObjectsRows[i].clouds[j].topPointLight){
+                            //     gameObjectsRows[i].clouds[j].setLightsPosition(objectGlobalPosition);
+                            //     // gameObjectsRows[i].clouds[j].topPointLight.position.set(objectGlobalPosition.x,
+                            //     //     objectGlobalPosition.y + 70,
+                            //     //     objectGlobalPosition.z
+                            //     //     );
+                            //     // gameObjectsRows[i].clouds[j].leftPointLight.position.set(objectGlobalPosition.x - 44,
+                            //     //     objectGlobalPosition.y,
+                            //     //     objectGlobalPosition.z + 18
+                            //     //     );
+                            //     // gameObjectsRows[i].clouds[j].rightPointLight.position.set(objectGlobalPosition.x + 44,
+                            //     //     objectGlobalPosition.y,
+                            //     //     objectGlobalPosition.z + 18
+                            //     //     );
 
-                               // scene.add(gameObjectsRows[i].clouds[j].topPointLight);
-                                scene.add(gameObjectsRows[i].clouds[j].leftPointLight); 
-                                scene.add(gameObjectsRows[i].clouds[j].rightPointLight);     
-                            }
-                            if(objectGlobalPosition.y < 900){
-                                scene.remove(gameObjectsRows[i].clouds[j].topPointLight);
-                                scene.remove(gameObjectsRows[i].clouds[j].leftPointLight);
-                                scene.remove(gameObjectsRows[i].clouds[j].rightPointLight);
-                            }
+                            //    // scene.add(gameObjectsRows[i].clouds[j].topPointLight);
+                            //     scene.add(gameObjectsRows[i].clouds[j].leftPointLight); 
+                            //     scene.add(gameObjectsRows[i].clouds[j].rightPointLight);     
+                            // }
+                            // if(objectGlobalPosition.y < 900){
+                            //     //scene.remove(gameObjectsRows[i].clouds[j].topPointLight);
+                            //     scene.remove(gameObjectsRows[i].clouds[j].leftPointLight);
+                            //     scene.remove(gameObjectsRows[i].clouds[j].rightPointLight);
+                            // }
                             //gameObjectsRows[i].clouds[j].setLightsPosition(objectGlobalPosition);
                         }
                         
