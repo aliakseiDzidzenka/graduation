@@ -1,11 +1,12 @@
-var AirPlane2 = function(){
+var WhiteSharpPlane = function(){
   this.mesh = new THREE.Object3D();
   this.mesh.name = "airPlane";
+  this.name = "whiteSharpPlane";
 
   // Cockpit
 
   var geomCockpit = new THREE.BoxGeometry(80,50,50,1,1,1);
-  var matCockpit = new THREE.MeshPhongMaterial({color:Colors.yellowPlane, shading:THREE.FlatShading});
+  var matCockpit = new THREE.MeshPhongMaterial({color:Colors.white, shading:THREE.FlatShading});
   geomCockpit.vertices[1].y-=10;
   geomCockpit.vertices[1].z+=10;
   geomCockpit.vertices[0].y-=10;

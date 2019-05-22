@@ -30,7 +30,7 @@ Ground = function(){
     }
     
     var material = new THREE.MeshPhongMaterial({
-    color: 0x1e8b0e,//26ae11,//29bf12 veru bright green,//43c59e мятный,//fa8334 desert orange,//4cb944 bright green,//566e3d bledno green,//b9a44c yellow,//33658a cinii,
+    color: 0x1e8b0e,//1e8b0e,//26ae11,//29bf12 veru bright green,//43c59e мятный,//fa8334 desert orange,//4cb944 bright green,//566e3d bledno green,//b9a44c yellow,//33658a cinii,
     shading:THREE.FlatShading});
     
     this.mesh = new THREE.Mesh(geom,material);
