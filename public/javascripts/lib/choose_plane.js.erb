@@ -140,8 +140,15 @@ function init(event){
     nextButton.textContent = 'Next';
     nextButton.style.position = 'absolute';
 
+
+    toGameButton = document.createElement('button');
+    toGameButton.setAttribute('id', 'game');
+    toGameButton.textContent = 'To game';
+    toGameButton.style.position = 'absolute';
+
     document.body.appendChild(nextButton);
     document.body.appendChild(prevButton);
+    document.body.appendChild(toGameButton);
 
     nextButton.onclick = function(){
         //alert("next");
@@ -178,6 +185,13 @@ function init(event){
             //airplane.mesh.visible = true;
             // airplane.mesh.position.x = WIDTH - 100;
             // airplane2.mesh.position.x = 0;
+    }
+
+
+    toGameButton.onclick = function(){
+        //alert("next");
+        
+        window.location.href='/game/index';
     }
     // //div element for score displaying
     // scoreText = document.createElement('div');

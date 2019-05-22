@@ -64,6 +64,7 @@ var crystalsTaken;
 
 var Colors = {
     yellowPlane:0xff9000,
+    plane2:0x33673b,
     white:0xd8d0d1,
     pink:0xF5986E,
     brown:0x59332e,
@@ -155,7 +156,28 @@ function init(event){
 
 
 function createPlane(){
-  airplane = new AirPlane();
+  
+  var name = getCookie('selected');
+  //alert(name);
+  switch(name){
+    case 'sharpPlane':
+        airplane = new SharpPlane();
+        break;
+    case 'doubleWingPlane':
+        airplane = new DoubleWingPlane();
+        break;
+    case 'brownSharpPlane':
+        airplane = new BrownSharpPlane();
+        break;
+    case 'whiteSharpPlane':
+        airplane = new WhiteSharpPlane();
+        break;
+    case 'default':
+    default:
+        airplane = new AirPlane();
+
+  }
+  //airplane = new AirPlane();
   airplane.mesh.scale.set(.3,.3,.3);
   airplane.mesh.rotation.x = 0.2;
   airplane.mesh.lookAt(new THREE.Vector3(0,1,0));
