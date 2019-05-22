@@ -10,9 +10,8 @@ class GameController < ApplicationController
   end
 
   def plane
-  	puts "*****"
-  	puts cookies[:plane]
-  	puts "*****"
+  	cookies[:selected] ||= 'default'
+    
   end
 
   def test

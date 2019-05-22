@@ -8,8 +8,12 @@ var Colors = {
     blue:0x68c3c0,
 };
 
-var airplane;
-var airplane2;
+
+// var planePlane;
+// var plane;
+// var plane;
+// var plane;
+// var plane;
 
 var scene,
     camera, fieldOfView, aspectRatio, nearPlane, farPlane,
@@ -24,7 +28,12 @@ var gameObjectsRowsCount = 8;
 var s = -1 * Math.PI / 2;
 var controls;
 
-var nextButton, prevButton;
+var nextButton, prevButton, toGameButton;
+
+var planes = [];
+var plane;
+var selected = 0;
+
 
 
 
@@ -98,8 +107,25 @@ function init(event){
     createScene();
     createLights();
 
-    createPlane();
-    createPlane2(WIDTH + 100);
+    createDefaultPlane();
+    createDoubleWingPlane();
+    createSharpPlane();
+    createWhiteSharpPlane();
+    createBrownSharpPlane();
+
+    // alert(getCookie('selected'));
+    // document.cookie = "selected=" + 'default';
+
+
+    for(var i = 0; i < planes.length; i++){
+        if(planes[i].name == getCookie('selected')){
+            planes[i].mesh.position.set(0,0,0);
+            selected = i;
+        }
+        else{
+            planes[i].mesh.position.set(0,100,0);
+        }
+    }
 
     prevButton = document.createElement('button');
     prevButton.setAttribute('id', 'prev');
@@ -117,13 +143,41 @@ function init(event){
     document.body.appendChild(nextButton);
     document.body.appendChild(prevButton);
 
+    nextButton.onclick = function(){
+        //alert("next");
+        
+        if(selected < planes.length - 1){
+            planes[selected].mesh.position.y = 100;
+            //if(selected != planes.length)
+            selected++;
+            planes[selected].mesh.position.y = 0;
+            document.cookie = "selected=" + planes[selected].name;
+            
+        }
+        console.log(selected);
+        console.log(getCookie('selected'));
+    }
 
-     prevButton.onclick = function(){
+
+    prevButton.onclick = function(){
+        //alert('prev');
+        if(selected > 0){
+            planes[selected].mesh.position.y = 100;
+            //if(selected != 0)
+            selected--;
+            planes[selected].mesh.position.y = 0;
+            document.cookie = "selected=" + planes[selected].name;
+            // console.log(getCookie('selected'));
+
+        }
+        console.log(selected);
+        console.log(getCookie('selected'));
+        
 
             //alert("prev");
             //airplane.mesh.visible = true;
-            airplane.mesh.position.x = WIDTH - 100;
-            airplane2.mesh.position.x = 0;
+            // airplane.mesh.position.x = WIDTH - 100;
+            // airplane2.mesh.position.x = 0;
     }
     // //div element for score displaying
     // scoreText = document.createElement('div');
@@ -159,31 +213,80 @@ function init(event){
     loop();
 }
 
-function createPlane(){
-  airplane = new AirPlane();
-  airplane.mesh.scale.set(.3,.3,.3);
+function createDefaultPlane(){
+  plane = new AirPlane();
+  plane.mesh.scale.set(.2,.2,.2);
   //airplane.mesh.rotation.x = 0.2;
-  airplane.mesh.lookAt(new THREE.Vector3(0,0,0));
-  airplane.mesh.rotation.y = Math.PI + 0.5;
+  plane.mesh.lookAt(new THREE.Vector3(0,0,0));
+  plane.mesh.rotation.y = Math.PI + 0.5;
   //airplane.mesh.rotation.x = 1.57;
-  airplane.mesh.position.x = 0;
-  airplane.mesh.position.y = 0;
-  airplane.mesh.position.z = 0;
-  scene.add(airplane.mesh);
+  plane.mesh.position.x = -100;
+  console.log(-WIDTH / 2);
+  plane.mesh.position.y = 0;
+  plane.mesh.position.z = 0;
+  scene.add(plane.mesh);
+
+  planes.push(plane);
   // console.log("created " + airplane.mesh.position.x + " " + airplane.mesh.position.y + " " + airplane.mesh.position.z);
 }
 
-function createPlane2(x){
-  airplane2 = new AirPlane2();
-  airplane2.mesh.scale.set(.3,.3,.3);
+function createDoubleWingPlane(){
+  plane = new DoubleWingPlane();
+  plane.mesh.scale.set(.2,.2,.2);
   //airplane.mesh.rotation.x = 0.2;
-  airplane2.mesh.lookAt(new THREE.Vector3(0,0,0));
-  airplane2.mesh.rotation.y = Math.PI + 0.5;
+  plane.mesh.lookAt(new THREE.Vector3(0,0,0));
+  plane.mesh.rotation.y = Math.PI + 0.5;
   //airplane.mesh.rotation.x = 1.57;
-  airplane2.mesh.position.x = x;
-  airplane2.mesh.position.y = 0;
-  airplane2.mesh.position.z = 0;
-  scene.add(airplane2.mesh);
+  plane.mesh.position.x = -60;
+  plane.mesh.position.y = 0;
+  plane.mesh.position.z = 0;
+  scene.add(plane.mesh);
+  planes.push(plane);
+  // console.log("created " + airplane.mesh.position.x + " " + airplane.mesh.position.y + " " + airplane.mesh.position.z);
+}
+
+function createSharpPlane(){
+  plane = new SharpPlane();
+  plane.mesh.scale.set(.2,.2,.2);
+  //airplane.mesh.rotation.x = 0.2;
+  plane.mesh.lookAt(new THREE.Vector3(0,0,0));
+  plane.mesh.rotation.y = Math.PI + 0.5;
+  //airplane.mesh.rotation.x = 1.57;
+  plane.mesh.position.x = -20;
+  plane.mesh.position.y = 0;
+  plane.mesh.position.z = 0;
+  scene.add(plane.mesh);
+  planes.push(plane);
+  // console.log("created " + airplane.mesh.position.x + " " + airplane.mesh.position.y + " " + airplane.mesh.position.z);
+}
+
+function createWhiteSharpPlane(){
+  plane = new WhiteSharpPlane();
+  plane.mesh.scale.set(.2,.2,.2);
+  //airplane.mesh.rotation.x = 0.2;
+  plane.mesh.lookAt(new THREE.Vector3(0,0,0));
+  plane.mesh.rotation.y = Math.PI + 0.5;
+  //airplane.mesh.rotation.x = 1.57;
+  plane.mesh.position.x = 20;
+  plane.mesh.position.y = 0;
+  plane.mesh.position.z = 0;
+  scene.add(plane.mesh);
+  planes.push(plane);
+  // console.log("created " + airplane.mesh.position.x + " " + airplane.mesh.position.y + " " + airplane.mesh.position.z);
+}
+
+function createBrownSharpPlane(){
+  plane = new BrownSharpPlane();
+  plane.mesh.scale.set(.2,.2,.2);
+  //airplane.mesh.rotation.x = 0.2;
+  plane.mesh.lookAt(new THREE.Vector3(0,0,0));
+  plane.mesh.rotation.y = Math.PI + 0.5;
+  //airplane.mesh.rotation.x = 1.57;
+  plane.mesh.position.x = 60;
+  plane.mesh.position.y = 0;
+  plane.mesh.position.z = 0;
+  scene.add(plane.mesh);
+  planes.push(plane);
   // console.log("created " + airplane.mesh.position.x + " " + airplane.mesh.position.y + " " + airplane.mesh.position.z);
 }
 
@@ -204,17 +307,17 @@ function loop() {
     }
     requestAnimationFrame( loop );
 
-    airplane.pilot.updateHairs();
-    airplane.propeller.rotation.x += 0.6;
-    airplane.mesh.position.y += Math.sin(s*5) / 5;
+    planes[selected].pilot.updateHairs();
+    planes[selected].propeller.rotation.x += 0.6;
+    planes[selected].mesh.position.y += Math.sin(s*5) / 5;
     s+=0.01;
-    airplane.mesh.rotation.y += 0.050;
+    planes[selected].mesh.rotation.y += 0.050;
 
-    airplane2.pilot.updateHairs();
-    airplane2.propeller.rotation.x += 0.3;
-    airplane2.mesh.position.y += Math.sin(s*5) / 5;
-    //s+=0.01;
-    airplane2.mesh.rotation.y += 0.009;
+    // plane.pilot.updateHairs();
+    // plane.propeller.rotation.x += 0.6;
+    // plane.mesh.position.y += Math.sin(s*5) / 5;
+    // //s+=0.01;
+    // plane.mesh.rotation.y += 0.05;
     
 
     //controls.update();
