@@ -1,4 +1,10 @@
 
+<style type="text/css">
+	
+	body > button:nth-child(11){
+		top:20%;
+	}
+</style>
 <script type="text/javascript" src="/javascripts/lib/_three.min.js"></script>
 <script type="text/javascript" src="/javascripts/lib/pilot.js"></script>
 <script type="text/javascript" src="/javascripts/lib/airplane.js"></script>
@@ -21,3 +27,32 @@
     </div>
 <!-- <a href="/game/index">TO game</a> -->
 
+<button onclick="openFullscreen();" id="open">Open Fullscreen</button>
+<button onclick="closeFullscreen();" id="close">Close Fullscreen</button>
+
+<script>
+var elem = document.documentElement;
+function openFullscreen() {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem.msRequestFullscreen();
+  }
+}
+
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) {
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
+  }
+}
+</script>
