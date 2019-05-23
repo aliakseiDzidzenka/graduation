@@ -1,3 +1,15 @@
+<style type="text/css">
+  #plane{
+/*    width: 50%;
+    height: 50%;*/
+    opacity: 0;
+  }
+</style>
+<script type="text/javascript" src="/javascripts/lib/_three.min.js"></script>
+<script type="text/javascript" src="/javascripts/lib/pilot.js"></script>
+<script type="text/javascript" src="/javascripts/lib/airplane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/index.js"></script>
+
 <% if current_user %>
   <%= render "/welcome/nav" %>
 <% end %>
@@ -17,6 +29,10 @@
       </li>
     </ul>
   <% end %>
+
+  <div class="row" id="plane">
+
+  </div>
   <div class="row">
     <div class="col-sm-12">
       <%= link_to "PLAY", game_plane_path, class: 'btn btn-warning btn-lg btn-block', id: 'play-not-signed' %>
