@@ -2,8 +2,8 @@ class PlanesController < ApplicationController
 	before_action :authenticate_user!
 
 	def index
-		# @planeNames = Array.new
-  	# current_user.planes.each { |plane| @planeNames.push(plane.name) }
+		@user_plane_names = Array.new
+  	current_user.planes.each { |plane| @user_plane_names.push(plane.name) }
   	@airplanes = Plane.all
 	end
 
@@ -17,17 +17,14 @@ class PlanesController < ApplicationController
   	end
   	
   	rescue ActiveRecord::RecordNotFound
-  		if current_user.crystal.quantity >= @plane.cost
-  			current_user.crystal.quantity -= @plane.cost 
-  			current_user.crystal.save
-  			current_user.planes << @plane
-  			puts current_user.crystal.reload.quantity
-  		end
-
-
-  	#current_user.planes << @plane
-  	# @article.update(title: params[:title], description: params[:description])
+  		
+  	if current_user.crystal.quantity >= @plane.cost
+  		current_user.crystal.quantity -= @plane.cost 
+ 			current_user.crystal.save
+ 			current_user.planes << @plane
+  	end
   	redirect_to planes_path
+
 	end
 
 end

@@ -1,7 +1,12 @@
 <style>
 	button {
     opacity: 1;
-}
+	}
+
+	#buy{
+		display: none;
+	}
+
 </style>
 
 
@@ -14,6 +19,7 @@
 		// console.log(planeNames[i]);
 		planeIds.push(airplanes[i].id);
 	}
+	var userPlaneNames = <%= @user_plane_names.to_json.html_safe %>
 
 </script>
 
@@ -44,12 +50,10 @@
 <!--   <div class="row">
     <div class="col-sm-12" id="plane">
     </div>
-  </div>
- -->  <div class="row align-items-center">
-    <div class="col">
-        <button type="button" class="btn btn-block btn-outline-secondary" id="buy-prev">&lt</button>
-    </div>
-    <div class="col-sm-8 card">
+  </div> -->
+	<div class="row align-items-center">
+    
+    <div class="col-sm-10 card">
     	<div class="card-header">
     		<h5 class="text-center" id="title">default</h5>
   		</div>
@@ -59,22 +63,29 @@
     		</div>
     		<p class="card-text" id="description">А сюда добавляется какое-нибудь суперсмешное описание, которое всегда меняется</p>
     		<!-- <a href="#" class="card-link" id="more">Card link</a> -->
-    		<a href="planes/4" class="card-link" id="buy" data-method="put">Buy</a>
+    		<a href="planes/4" class="card-link btn btn-block btn-success" id="buy" data-method="put">Buy</a>
   		</div>
+    </div>
+    
+    
+  </div>
+  <div class="row" style="margin-top: 20px">
+  	<div class="col">
+        <button type="button" class="btn btn-block btn-outline-secondary" id="buy-prev">&lt</button>
     </div>
     <div class="col">
     	<button type="button" class="btn btn-block btn-outline-secondary" id="buy-next">&gt</button>
     </div>
-    
   </div>
+
+
 
 </div>
 
+<!-- Footer -->
+<footer class="page-footer font-small blue pt-4">
+
+</footer>
+<!-- Footer -->
 
 
-
-
-<script>
-
-
-</script>

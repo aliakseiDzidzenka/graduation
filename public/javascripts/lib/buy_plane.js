@@ -1,3 +1,6 @@
+var title = document.getElementById('title');
+var planeId = document.getElementById('buy');
+
 var Colors = {
     yellowPlane:0xff9000,
     plane2:0x33673b,
@@ -33,10 +36,10 @@ var nextButton, prevButton, toGameButton;
 var planes = [];
 var plane;
 var selected = 0;
-
+var lightIn = true;
 function createScene() {
 
-    HEIGHT = window.innerHeight/4;
+    HEIGHT = window.innerHeight/3;
     WIDTH = window.innerWidth/12*8;
 
     scene = new THREE.Scene();
@@ -73,7 +76,7 @@ function createScene() {
 function handleWindowResize() {
     HEIGHT = window.innerHeight;
     WIDTH = window.innerWidth;
-    HEIGHT = window.innerHeight/4;
+    HEIGHT = window.innerHeight/3;
     WIDTH = window.innerWidth/12*8;
     renderer.setSize(WIDTH, HEIGHT);
     camera.aspect = WIDTH / HEIGHT;
@@ -140,26 +143,46 @@ function init(event){
             planes[i].mesh.position.set(0,100,0);
         // }
     }
-    planes[0].mesh.position.set(-30,0,0);
+    planes[0].mesh.position.set(10,0,0);
     selected = 0;
 
     prevButton = document.getElementById('buy-prev');
     nextButton = document.getElementById('buy-next');
+    var title = document.getElementById('title');
+    var planeId = document.getElementById('buy');
   
     nextButton.onclick = function(){
         //alert("next");
+
         
         if(selected < planes.length - 1){
             planes[selected].mesh.position.y = 100;
             //if(selected != planes.length)
             selected++;
             planes[selected].mesh.position.y = 0;
-            planes[selected].mesh.position.x = -30;
+            planes[selected].mesh.position.x = 0;
             document.cookie = "selected=" + planes[selected].name;
-            var title = document.getElementById('title');
+            
             title.innerHTML = planeNames[selected];
             var planeId = document.getElementById('buy');
             planeId.setAttribute('href', 'planes/' + planeIds[selected]);
+            //planeId.setAttribute('style', 'display:block');
+
+            if(userPlaneNames.includes(planeNames[selected]) == false){
+              planeId.setAttribute('style', 'display:block');
+              if(lightIn){
+                scene.remove(shadowLight);
+                lightIn = false;
+              }
+
+            }
+            else{
+              planeId.setAttribute('style', 'display:none');
+              if (lightIn == false){
+                scene.add(shadowLight);
+                lightIn = true;
+              }
+            }
         }
         // console.log(selected);
         // console.log(getCookie('selected'));
@@ -174,11 +197,26 @@ function init(event){
             //if(selected != 0)
             selected--;
             planes[selected].mesh.position.y = 0;
-            planes[selected].mesh.position.x = -30;
+            planes[selected].mesh.position.x = 10;
             document.cookie = "selected=" + planes[selected].name;
             title.innerHTML = planeNames[selected];
             var planeId = document.getElementById('buy');
             planeId.setAttribute('href', 'planes/' + planeIds[selected]);
+            if(userPlaneNames.includes(planeNames[selected]) == false){
+              planeId.setAttribute('style', 'display:block');
+              if(lightIn){
+                scene.remove(shadowLight);
+                lightIn = false;
+              }
+
+            }
+            else{
+              planeId.setAttribute('style', 'display:none');
+              if (lightIn == false){
+                scene.add(shadowLight);
+                lightIn = true;
+              }
+            }
             // console.log(getCookie('selected'));
 
         }
@@ -341,3 +379,4 @@ function loop() {
 
 
 window.addEventListener('load', init, false);
+
