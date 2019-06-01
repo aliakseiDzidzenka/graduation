@@ -9,12 +9,6 @@ var Colors = {
 };
 
 
-// var planePlane;
-// var plane;
-// var plane;
-// var plane;
-// var plane;
-
 var scene,
     camera, fieldOfView, aspectRatio, nearPlane, farPlane,
     renderer, container;
