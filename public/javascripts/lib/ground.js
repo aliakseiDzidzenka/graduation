@@ -2,10 +2,14 @@
 Ground = function(){
 
     //var geom = new THREE.SphereGeometry(800,30,30);
-    var geom = new THREE.CylinderGeometry(800, 800, WIDTH + 150, 30, 8, true);
+    var geom = new THREE.CylinderGeometry(800, 800, 1000 /*WIDTH + 350*/, 30, 8, true);
     
     geom.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI/2));
     geom.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI/2));
+    this.colors = [];
+    this.colors.push(0x1e8b0e);
+    this.colors.push(0xfa8334);
+    this.colors.push(0x43c59e);
     
     var l = geom.vertices.length;
     

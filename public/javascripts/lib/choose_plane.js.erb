@@ -34,9 +34,6 @@ var planes = [];
 var plane;
 var selected = 0;
 
-
-
-
 function createScene() {
 
     HEIGHT = window.innerHeight;
@@ -102,6 +99,7 @@ function createLights() {
 
 
 function init(event){
+
 
 
     createScene();
@@ -177,52 +175,15 @@ function init(event){
             // console.log(getCookie('selected'));
 
         }
-        console.log(selected);
-        console.log(getCookie('selected'));
-        
-
-            //alert("prev");
-            //airplane.mesh.visible = true;
-            // airplane.mesh.position.x = WIDTH - 100;
-            // airplane2.mesh.position.x = 0;
+        // console.log(selected);
+        // console.log(getCookie('selected'));
     }
 
 
-    toGameButton.onclick = function(){
-        //alert("next");
-        
+    toGameButton.onclick = function(){        
         window.location.href='/game/index';
     }
-    // //div element for score displaying
-    // scoreText = document.createElement('div');
-    // scoreText.style.position = 'absolute';
 
-    // scoreText.style.width = 150;
-    // scoreText.style.height = 100;
-    // scoreText.innerHTML = "Flight time is 0 seconds";
-    // scoreText.style.top = 50 + 'px';
-    // scoreText.style.left = 50 + 'px';
-    // document.body.appendChild(scoreText);
-
-    // againButton = document.createElement('button');
-    // againButton.style.opacity = 0;
-    // againButton.textContent = 'Play again!';
-    // againButton.style.position = 'absolute';
-    
-    // againButton.onclick = function(){
-    //     if(this.style.opacity == 1){
-    //         againButton.style.opacity = 0;
-    //         score = 0;
-    //         scoreText.innerHTML = "Flight time is " + 0 + " seconds.";
-    //         rotUpdate = 0.008;
-    //         clock = new THREE.Clock(false);
-    //         clock.start();
-    //         airplane.mesh.visible = true;
-    //         airplane.mesh.position.x = 0;
-    //     }
-    
-    // }
-    // document.body.appendChild(againButton);
 
     loop();
 }
@@ -309,15 +270,24 @@ function loop() {
     WIDTH = window.innerWidth;
     HEIGHT = window.innerHeight;
     if(WIDTH < HEIGHT){
-            
             container.setAttribute('style', 'opacity: 0');
             document.getElementById('rotate').setAttribute('style', 'opacity: 1');
-            //document.getElementById('qrCode').setAttribute('style', 'opacity: 0');
-            //return;
+            document.getElementById('open').setAttribute('style', 'opacity: 1');
+            document.getElementById('close').setAttribute('style', 'opacity: 1');
+            document.getElementById('next').setAttribute('style', 'opacity: 0');
+            document.getElementById('prev').setAttribute('style', 'opacity: 0');
+            document.getElementById('game').setAttribute('style', 'opacity: 0');
+
     }
     else{
         container.setAttribute('style', 'opacity: 1');
         document.getElementById('rotate').setAttribute('style', 'opacity: 0');
+        document.getElementById('open').setAttribute('style', 'opacity: 0');
+        document.getElementById('close').setAttribute('style', 'opacity: 0');
+        document.getElementById('next').setAttribute('style', 'opacity: 1');
+        document.getElementById('prev').setAttribute('style', 'opacity: 1');
+        document.getElementById('game').setAttribute('style', 'opacity: 1');
+
     }
     requestAnimationFrame( loop );
 
@@ -326,15 +296,6 @@ function loop() {
     planes[selected].mesh.position.y += Math.sin(s*5) / 5;
     s+=0.01;
     planes[selected].mesh.rotation.y += 0.050;
-
-    // plane.pilot.updateHairs();
-    // plane.propeller.rotation.x += 0.6;
-    // plane.mesh.position.y += Math.sin(s*5) / 5;
-    // //s+=0.01;
-    // plane.mesh.rotation.y += 0.05;
-    
-
-    //controls.update();
 
     renderer.render( scene, camera );
 }
