@@ -36,8 +36,8 @@ var selected = 0;
 
 function createScene() {
 
-    HEIGHT = window.innerHeight;
-    WIDTH = window.innerWidth;
+    HEIGHT = window.innerHeight/4;
+    WIDTH = window.innerWidth/12*8;
 
     scene = new THREE.Scene();
     aspectRatio = WIDTH / HEIGHT;
@@ -58,7 +58,7 @@ function createScene() {
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(WIDTH, HEIGHT);
     renderer.shadowMap.enabled = true;
-    container = document.getElementById('world');
+    container = document.getElementById('plane');
     container.appendChild(renderer.domElement);
     container.setAttribute('style', 'opacity: 1');
 
@@ -73,6 +73,8 @@ function createScene() {
 function handleWindowResize() {
     HEIGHT = window.innerHeight;
     WIDTH = window.innerWidth;
+    HEIGHT = window.innerHeight/4;
+    WIDTH = window.innerWidth/12*8;
     renderer.setSize(WIDTH, HEIGHT);
     camera.aspect = WIDTH / HEIGHT;
     camera.updateProjectionMatrix();
@@ -105,23 +107,23 @@ function init(event){
     createScene();
     createLights();
 
-    for (var i = 0; i < planeNames.length; i++) {
-      switch(planeNames[i]){
-        case 'default':
-          createDefaultPlane();
-          break;
-        case 'doubleWingPlane':
-          createDoubleWingPlane();
-          break;
-        case 'sharpPlane':
-          createSharpPlane();
-          break;
-      }
-    }
+    // for (var i = 0; i < planeNames.length; i++) {
+    //   switch(planeNames[i]){
+    //     case 'default':
+    //       createDefaultPlane();
+    //       break;
+    //     case 'doubleWingPlane':
+    //       createDoubleWingPlane();
+    //       break;
+    //     case 'sharpPlane':
+    //       createSharpPlane();
+    //       break;
+    //   }
+    // }
 
-    
-    
-    
+    createDefaultPlane();
+    createDoubleWingPlane();
+    createSharpPlane();
     // createWhiteSharpPlane();
     // createBrownSharpPlane();
 
@@ -130,38 +132,20 @@ function init(event){
 
 
     for(var i = 0; i < planes.length; i++){
-        if(planes[i].name == getCookie('selected')){
-            planes[i].mesh.position.set(0,0,0);
-            selected = i;
-        }
-        else{
+        // if(planes[i].name == getCookie('selected')){
+        //     planes[i].mesh.position.set(-30,0,0);
+        //     selected = i;
+        // }
+        // else{
             planes[i].mesh.position.set(0,100,0);
-        }
+        // }
     }
+    planes[0].mesh.position.set(-30,0,0);
+    selected = 0;
 
-    prevButton = document.createElement('button');
-    prevButton.setAttribute('id', 'prev');
-    prevButton.textContent = 'Prev';
-    prevButton.style.position = 'absolute';
-
-
-
-
-    nextButton = document.createElement('button');
-    nextButton.setAttribute('id', 'next');
-    nextButton.textContent = 'Next';
-    nextButton.style.position = 'absolute';
-
-
-    toGameButton = document.createElement('button');
-    toGameButton.setAttribute('id', 'game');
-    toGameButton.textContent = 'To game';
-    toGameButton.style.position = 'absolute';
-
-    document.body.appendChild(nextButton);
-    document.body.appendChild(prevButton);
-    document.body.appendChild(toGameButton);
-
+    prevButton = document.getElementById('buy-prev');
+    nextButton = document.getElementById('buy-next');
+  
     nextButton.onclick = function(){
         //alert("next");
         
@@ -170,12 +154,17 @@ function init(event){
             //if(selected != planes.length)
             selected++;
             planes[selected].mesh.position.y = 0;
+            planes[selected].mesh.position.x = -30;
             document.cookie = "selected=" + planes[selected].name;
-            
+            var title = document.getElementById('title');
+            title.innerHTML = planeNames[selected];
+            var planeId = document.getElementById('buy');
+            planeId.setAttribute('href', 'planes/' + planeIds[selected]);
         }
-        console.log(selected);
-        console.log(getCookie('selected'));
+        // console.log(selected);
+        // console.log(getCookie('selected'));
     }
+
 
 
     prevButton.onclick = function(){
@@ -185,7 +174,11 @@ function init(event){
             //if(selected != 0)
             selected--;
             planes[selected].mesh.position.y = 0;
+            planes[selected].mesh.position.x = -30;
             document.cookie = "selected=" + planes[selected].name;
+            title.innerHTML = planeNames[selected];
+            var planeId = document.getElementById('buy');
+            planeId.setAttribute('href', 'planes/' + planeIds[selected]);
             // console.log(getCookie('selected'));
 
         }
@@ -194,9 +187,39 @@ function init(event){
     }
 
 
-    toGameButton.onclick = function(){        
-        window.location.href='/game/index';
-    }
+
+    
+    // prevButton.setAttribute('id', 'prev');
+    // prevButton.textContent = 'Prev';
+    // prevButton.style.position = 'absolute';
+
+
+
+
+    
+    // nextButton.setAttribute('id', 'next');
+    // nextButton.textContent = 'Next';
+    // nextButton.style.position = 'absolute';
+
+
+    // toGameButton = document.createElement('button');
+    // toGameButton.setAttribute('id', 'game');
+    // toGameButton.textContent = 'To game';
+    // toGameButton.style.position = 'absolute';
+
+    // document.body.appendChild(nextButton);
+    // document.body.appendChild(prevButton);
+    // document.body.appendChild(toGameButton);
+
+    
+
+
+    
+
+
+    // toGameButton.onclick = function(){        
+    //     window.location.href='/game/index';
+    // }
 
 
     loop();
@@ -204,8 +227,8 @@ function init(event){
 
 function createDefaultPlane(){
   plane = new AirPlane();
-  plane.mesh.scale.set(.2,.2,.2);
-  //airplane.mesh.rotation.x = 0.2;
+  plane.mesh.scale.set(.4,.4,.4);
+  //airplane.mesh.rotation.x = 0.4;
   plane.mesh.lookAt(new THREE.Vector3(0,0,0));
   plane.mesh.rotation.y = Math.PI + 0.5;
   //airplane.mesh.rotation.x = 1.57;
@@ -221,8 +244,8 @@ function createDefaultPlane(){
 
 function createDoubleWingPlane(){
   plane = new DoubleWingPlane();
-  plane.mesh.scale.set(.2,.2,.2);
-  //airplane.mesh.rotation.x = 0.2;
+  plane.mesh.scale.set(.4,.4,.4);
+  //airplane.mesh.rotation.x = 0.4;
   plane.mesh.lookAt(new THREE.Vector3(0,0,0));
   plane.mesh.rotation.y = Math.PI + 0.5;
   //airplane.mesh.rotation.x = 1.57;
@@ -236,8 +259,8 @@ function createDoubleWingPlane(){
 
 function createSharpPlane(){
   plane = new SharpPlane();
-  plane.mesh.scale.set(.2,.2,.2);
-  //airplane.mesh.rotation.x = 0.2;
+  plane.mesh.scale.set(.4,.4,.4);
+  //airplane.mesh.rotation.x = 0.4;
   plane.mesh.lookAt(new THREE.Vector3(0,0,0));
   plane.mesh.rotation.y = Math.PI + 0.5;
   //airplane.mesh.rotation.x = 1.57;
@@ -251,8 +274,8 @@ function createSharpPlane(){
 
 function createWhiteSharpPlane(){
   plane = new WhiteSharpPlane();
-  plane.mesh.scale.set(.2,.2,.2);
-  //airplane.mesh.rotation.x = 0.2;
+  plane.mesh.scale.set(.4,.4,.4);
+  //airplane.mesh.rotation.x = 0.4;
   plane.mesh.lookAt(new THREE.Vector3(0,0,0));
   plane.mesh.rotation.y = Math.PI + 0.5;
   //airplane.mesh.rotation.x = 1.57;
@@ -266,8 +289,8 @@ function createWhiteSharpPlane(){
 
 function createBrownSharpPlane(){
   plane = new BrownSharpPlane();
-  plane.mesh.scale.set(.2,.2,.2);
-  //airplane.mesh.rotation.x = 0.2;
+  plane.mesh.scale.set(.4,.4,.4);
+  //airplane.mesh.rotation.x = 0.4;
   plane.mesh.lookAt(new THREE.Vector3(0,0,0));
   plane.mesh.rotation.y = Math.PI + 0.5;
   //airplane.mesh.rotation.x = 1.57;
@@ -283,24 +306,26 @@ function loop() {
 
     WIDTH = window.innerWidth;
     HEIGHT = window.innerHeight;
+    HEIGHT = window.innerHeight/4;
+    WIDTH = window.innerWidth/12*8;
     if(WIDTH < HEIGHT){
-            container.setAttribute('style', 'opacity: 0');
-            document.getElementById('rotate').setAttribute('style', 'opacity: 1');
-            document.getElementById('open').setAttribute('style', 'opacity: 1');
-            document.getElementById('close').setAttribute('style', 'opacity: 1');
-            document.getElementById('next').setAttribute('style', 'opacity: 0');
-            document.getElementById('prev').setAttribute('style', 'opacity: 0');
-            document.getElementById('game').setAttribute('style', 'opacity: 0');
+            // container.setAttribute('style', 'opacity: 0');
+            // document.getElementById('rotate').setAttribute('style', 'opacity: 1');
+            // document.getElementById('open').setAttribute('style', 'opacity: 1');
+            // document.getElementById('close').setAttribute('style', 'opacity: 1');
+            // document.getElementById('next').setAttribute('style', 'opacity: 0');
+            // document.getElementById('prev').setAttribute('style', 'opacity: 0');
+            // document.getElementById('game').setAttribute('style', 'opacity: 0');
 
     }
     else{
-        container.setAttribute('style', 'opacity: 1');
-        document.getElementById('rotate').setAttribute('style', 'opacity: 0');
-        document.getElementById('open').setAttribute('style', 'opacity: 0');
-        document.getElementById('close').setAttribute('style', 'opacity: 0');
-        document.getElementById('next').setAttribute('style', 'opacity: 1');
-        document.getElementById('prev').setAttribute('style', 'opacity: 1');
-        document.getElementById('game').setAttribute('style', 'opacity: 1');
+        // container.setAttribute('style', 'opacity: 1');
+        // document.getElementById('rotate').setAttribute('style', 'opacity: 0');
+        // document.getElementById('open').setAttribute('style', 'opacity: 0');
+        // document.getElementById('close').setAttribute('style', 'opacity: 0');
+        // document.getElementById('next').setAttribute('style', 'opacity: 1');
+        // document.getElementById('prev').setAttribute('style', 'opacity: 1');
+        // document.getElementById('game').setAttribute('style', 'opacity: 1');
 
     }
     requestAnimationFrame( loop );

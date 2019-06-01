@@ -1,0 +1,80 @@
+<style>
+	button {
+    opacity: 1;
+}
+</style>
+
+
+<script >
+	var airplanes = <%= @airplanes.to_json.html_safe %>;
+	var planeNames = [];
+	var planeIds = [];
+	for (var i = 0; i < airplanes.length; i++) {
+		planeNames.push(airplanes[i].name);
+		// console.log(planeNames[i]);
+		planeIds.push(airplanes[i].id);
+	}
+
+</script>
+
+
+
+<script type="text/javascript" src="/javascripts/lib/_three.min.js"></script>
+<script type="text/javascript" src="/javascripts/lib/pilot.js"></script>
+<script type="text/javascript" src="/javascripts/lib/airplane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/sharpPlane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/whiteSharpPlane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/brownSharpPlane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/doubleWingPlane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/buy_plane.js"></script>
+
+
+
+<% if current_user %>
+  <%= render "/welcome/nav" %>
+<% end %>
+
+<div class="container">
+  
+  <div class="jumbotron ">
+    <h1 class="text-center">Shop</h1>        
+  </div>
+
+
+<!--   <div class="row">
+    <div class="col-sm-12" id="plane">
+    </div>
+  </div>
+ -->  <div class="row align-items-center">
+    <div class="col">
+        <button type="button" class="btn btn-block btn-outline-secondary" id="buy-prev">&lt</button>
+    </div>
+    <div class="col-sm-8 card">
+    	<div class="card-header">
+    		<h5 class="text-center" id="title">default</h5>
+  		</div>
+    	<div class="card-body">
+    		<div id="plane">
+    	
+    		</div>
+    		<p class="card-text" id="description">А сюда добавляется какое-нибудь суперсмешное описание, которое всегда меняется</p>
+    		<!-- <a href="#" class="card-link" id="more">Card link</a> -->
+    		<a href="planes/4" class="card-link" id="buy" data-method="put">Buy</a>
+  		</div>
+    </div>
+    <div class="col">
+    	<button type="button" class="btn btn-block btn-outline-secondary" id="buy-next">&gt</button>
+    </div>
+    
+  </div>
+
+</div>
+
+
+
+
+
+<script>
+
+
+</script>

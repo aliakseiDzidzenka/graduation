@@ -1,11 +1,29 @@
 <script >
-	var planes = <%= @planes.inspect.html_safe %>;
+	var planeNames = <%= @planes.inspect.html_safe %>;
 </script>
 <style type="text/css">
 	
 	body > button:nth-child(11){
 		top:20%;
 	}
+	button {
+    background-color: #4CAF50; 
+    color: white; 
+    width: 180px;
+    height: 80px;
+    border: 2px solid white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    top: 50%;
+    margin-top: -40px;
+    left: 50%;
+    margin-left: -90px;
+    position: absolute;
+    opacity: 0;
+}
+</style>
 </style>
 <script type="text/javascript" src="/javascripts/lib/_three.min.js"></script>
 <script type="text/javascript" src="/javascripts/lib/pilot.js"></script>
