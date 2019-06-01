@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_22_205406) do
+ActiveRecord::Schema.define(version: 2019_06_01_123432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,20 @@ ActiveRecord::Schema.define(version: 2019_05_22_205406) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_crystals_on_user_id"
+  end
+
+  create_table "planes", force: :cascade do |t|
+    t.string "name"
+    t.integer "cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "planes_users", id: false, force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "plane_id"
+    t.index ["plane_id"], name: "index_planes_users_on_plane_id"
+    t.index ["user_id"], name: "index_planes_users_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
