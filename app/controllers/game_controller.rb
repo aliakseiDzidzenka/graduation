@@ -1,6 +1,6 @@
 class GameController < ApplicationController
-	before_action :authenticate_user!
-	before_action :set_user
+	before_action :authenticate_user!, except: :test
+	before_action :set_user, except: :test
 
 
 	def index

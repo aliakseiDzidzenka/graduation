@@ -1,3 +1,655 @@
 <!-- <script type="text/javascript">
 	alert(getCookie('selected'));
 </script> -->
+
+<!-- <h2>Fullscreen with JavaScript</h2>
+<p>Click on the "Open Fullscreen" button to open this page in fullscreen mode. Close it by either clicking the "Esc" key on your keyboard, or with the "Close Fullscreen" button.</p>
+
+<button onclick="openFullscreen();" style="opacity: 1; top: 30%">Open Fullscreen</button>
+<button onclick="closeFullscreen();" style="opacity: 1; top: 60%">Close Fullscreen</button>
+
+<script>
+var elem = document.documentElement;
+function openFullscreen() {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem.msRequestFullscreen();
+  }
+}
+
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) {
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
+  }
+}
+</script>
+
+<p>Note: Internet Explorer 10 and earlier does not support the msRequestFullscreen() method.</p> -->
+<style type="text/css">
+  
+
+.modal {
+  display: block; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+</style>
+
+<script src="/javascripts/lib/TweenMax.min.js"></script>
+<script type="text/javascript" src="/javascripts/lib/_three.min.js"></script>
+<script type="text/javascript" src="/javascripts/lib/pilot.js"></script>
+<script type="text/javascript" src="/javascripts/lib/airplane.js"></script>
+<!-- <script type="text/javascript" src="/javascripts/lib/sharpPlane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/whiteSharpPlane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/brownSharpPlane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/doubleWingPlane.js"></script> -->
+<script type="text/javascript" src="/javascripts/lib/cloud.js"></script>
+<script type="text/javascript" src="/javascripts/lib/gameObjectsRow.js"></script>
+<script type="text/javascript" src="/javascripts/lib/sideClouds.js"></script>
+<script type="text/javascript" src="/javascripts/lib/ground.js"></script>
+<script type="text/javascript" src="/javascripts/lib/crystalParticle.js"></script>
+<script type="text/javascript" src="/javascripts/lib/crystal.js"></script>
+<!-- <script type="text/javascript" src="/javascripts/lib/gameN.js.erb"></script> -->
+
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Это неполная версия игры. Твой прогресс не сохранится. Зарегистрируйся и узнай больше!</p>
+  </div>
+
+</div>
+
+<div id="world"></div>
+
+<div id="qrCode">
+        <figure>
+            <!--<img src="img/qr-code.gif" alt="qr code" width="200" height="200">-->
+
+            <figcaption>
+                <h1>OOOPS...</h1>
+                <p>I'm sorry but this game is only for mobile devices</p>
+                <p>Try using your smartphone</p>
+
+            </figcaption>
+        </figure>
+    </div>
+    <div id="rotate">
+      <figure>
+            <!--<img src="img/rotate.png" alt="Rotate your device to the left" width="200" height="200">-->
+            <figcaption>
+                <p>PAUSE</p>
+                <p>To start or continue the game rotate your phone to the left<p>
+                <p>To control the character use <strong>ACCELEROMETER</strong></p>
+                <p>Avoid collisions with clouds</p>
+            </figcaption>
+      </figure>
+    </div>
+
+
+
+
+
+
+<script type="text/javascript">
+  
+// Get the modal
+var modal = document.getElementById("myModal");
+
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+  init();
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+    init();
+  }
+} 
+
+
+
+
+
+
+
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
+
+if (true) {
+var airplane;
+var rowH = 1046;
+var leftSideCloudsPos = -250;
+var rightSideCloudsPos = - leftSideCloudsPos;
+var sideCloudsCount = 12;
+var objectPosDelta = 85;
+var scene,
+    camera, fieldOfView, aspectRatio, nearPlane, farPlane,
+    renderer, container,  mixer;
+//var flamingo;
+var planePos;
+var HEIGHT, WIDTH;
+var updateOrNot = true;
+var  hemisphereLight, shadowLight;
+var ground;
+var score = 0;
+var globalRot = 0.785;
+var rotUpdate = 0.008;
+var planePosVector = new THREE.Vector3();
+var row;
+var gameObjectsRows = [];
+var gameObjectsRowsCount = 8;
+//var cloudPosDelta = 85;
+var gameObjectsRowGlobalPosition = new THREE.Vector3();
+var objectGlobalPosition = new THREE.Vector3();
+var sideClouds;
+var sideCloudsCount = 12;
+var minCloudBlocksCount = 5;
+var maxCLoudBlocksCount = 8;
+var angle = 2 * Math.PI / sideCloudsCount;
+var clock = new THREE.Clock(false);
+clock.start();
+var delta = clock.getDelta();
+var againButton;
+var loader = new THREE.JSONLoader();
+var crystal;
+var totalCrystals = 0;
+var crystalsCookie = "crystals";
+var crystalsTaken;
+
+
+
+var Colors = {
+    yellowPlane:0xff9000,
+    plane2:0x33673b,
+    white:0xd8d0d1,
+    pink:0xF5986E,
+    brown:0x59332e,
+    brownDark:0x23190f,
+    blue:0x68c3c0,
+};
+
+//This function initialises our scene
+function init(event){
+
+    window.addEventListener('devicemotion', handleOrientation);
+
+
+    document.cookie = crystalsCookie + "=" + totalCrystals.toString();
+
+    createScene();
+    createLights();
+    createGround();
+    createSideClouds();
+    createPlane();
+
+
+    //first initialising of each cloud row
+    for(var i = 0; i < gameObjectsRowsCount; i++){
+    gameObjectsRows[i] = new gameObjectsRow();
+    
+    gameObjectsRows[i].addClouds();
+    gameObjectsRows[i].rot = globalRot * i;
+    
+    scene.add(gameObjectsRows[i].mesh);
+
+    // for(var j = 0; j < gameObjectsRows[i].clouds.length; j++){
+    //     if(gameObjectsRows[i].clouds[j].name = "crystal"){
+    //        //scene.add(gameObjectsRows[i].clouds[j].topPointLight);
+    //        // scene.add(gameObjectsRows[i].clouds[j].leftPointLight);
+    //        // scene.add(gameObjectsRows[i].clouds[j].righPointtLight);
+
+    //     }
+    // }
+}
+
+
+    //div element for score displaying
+    scoreText = document.createElement('div');
+    scoreText.style.position = 'absolute';
+    scoreText.setAttribute('id', 'score-div');
+
+    scoreText.style.width = 150;
+    scoreText.style.height = 100;
+    //scoreText.innerHTML = "Flight time is 0 seconds";
+    scoreText.style.top = 50 + 'px';
+    scoreText.style.left = 50 + 'px';
+    document.body.appendChild(scoreText);
+
+    timeSpend = document.createElement('p')
+    timeSpend.innerHTML = "Time: 0 sec.";
+    timeSpend.setAttribute('id', 'time');
+    document.getElementById('score-div').appendChild(timeSpend);
+
+    crystalsTaken = document.createElement('p')
+    crystalsTaken.innerHTML = "Crystals: 0";
+    crystalsTaken.setAttribute('id', 'crystals');
+    document.getElementById('score-div').appendChild(crystalsTaken);
+
+    againButton = document.createElement('button');
+    againButton.style.opacity = 0;
+    againButton.textContent = 'Play again!';
+    againButton.style.position = 'absolute';
+    
+    againButton.onclick = function(){
+        if(this.style.opacity == 1){
+            againButton.style.opacity = 0;
+            score = 0;
+            timeSpend.innerHTML = "Time: 0 sec.";
+            crystalsTaken.innerHTML = "Crystals: 0";
+            rotUpdate = 0.008;
+            clock = new THREE.Clock(false);
+            clock.start();
+            airplane.mesh.visible = true;
+            airplane.mesh.position.x = 0;
+        }
+    
+    }
+    document.body.appendChild(againButton);
+
+   
+    loop();
+}
+
+
+function createPlane(){
+  
+  // var name = getCookie('selected');
+  // //alert(name);
+  // switch(name){
+  //   case 'sharpPlane':
+  //       airplane = new SharpPlane();
+  //       break;
+  //   case 'doubleWingPlane':
+  //       airplane = new DoubleWingPlane();
+  //       break;
+  //   case 'brownSharpPlane':
+  //       airplane = new BrownSharpPlane();
+  //       break;
+  //   case 'whiteSharpPlane':
+  //       airplane = new WhiteSharpPlane();
+  //       break;
+  //   case 'default':
+  //   default:
+        airplane = new AirPlane();
+
+  //}
+  //airplane = new AirPlane();
+  airplane.mesh.scale.set(.3,.3,.3);
+  airplane.mesh.rotation.x = 0.2;
+  airplane.mesh.lookAt(new THREE.Vector3(0,1,0));
+  airplane.mesh.rotation.y = 1.57;
+  airplane.mesh.position.x = 0;
+  airplane.mesh.position.y = 930;
+  airplane.mesh.position.z = 480;
+  scene.add(airplane.mesh);
+  // console.log("created " + airplane.mesh.position.x + " " + airplane.mesh.position.y + " " + airplane.mesh.position.z);
+}
+
+function createScene() {
+
+    HEIGHT = window.innerHeight;
+    WIDTH = window.innerWidth;
+
+    scene = new THREE.Scene();
+    aspectRatio = WIDTH / HEIGHT;
+    fieldOfView = 60;
+    nearPlane = 1;
+    farPlane = 10000;
+    camera = new THREE.PerspectiveCamera(
+    fieldOfView,
+    aspectRatio,
+    nearPlane,
+    farPlane
+    );
+    //scene.fog = new THREE.Fog(0x03f7eb, 500,950);
+    camera.position.x = 0;
+    camera.position.y = 950;
+    camera.position.z = 700;
+
+    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(WIDTH, HEIGHT);
+    renderer.shadowMap.enabled = true;
+    container = document.getElementById('world');
+    container.appendChild(renderer.domElement);
+    container.setAttribute('style', 'opacity: 1');
+    document.getElementById('qrCode').setAttribute('style', 'opacity: 0');
+    
+
+    window.addEventListener('resize', handleWindowResize, false);
+}
+
+function handleWindowResize() {
+    HEIGHT = window.innerHeight;
+    WIDTH = window.innerWidth;
+    renderer.setSize(WIDTH, HEIGHT);
+    camera.aspect = WIDTH / HEIGHT;
+    camera.updateProjectionMatrix();
+}
+
+function createLights() {
+
+    hemisphereLight = new THREE.HemisphereLight(0xaaaaaa,0xffffff, .9)
+    shadowLight = new THREE.DirectionalLight(0xffffff, .9);
+    shadowLight.position.set(150, 350, 350);
+    shadowLight.castShadow = true;
+    shadowLight.shadow.camera.left = -400;
+    shadowLight.shadow.camera.right = 400;
+    shadowLight.shadow.camera.top = 400;
+    shadowLight.shadow.camera.bottom = -400;
+    shadowLight.shadow.camera.near = 1;
+    shadowLight.shadow.camera.far = 1000;
+    shadowLight.shadow.mapSize.width = 2048;
+    shadowLight.shadow.mapSize.height = 2048;
+
+    scene.add(hemisphereLight);
+    scene.add(shadowLight);
+}
+
+function createGround(){
+    ground = new Ground();
+
+    ground.mesh.position.x = 0;
+    ground.mesh.position.y = 0;
+    ground.mesh.position.z = 0;
+
+    scene.add(ground.mesh);
+}
+
+function createSideClouds(){
+    sideClouds = new SideClouds();
+    scene.add(sideClouds.mesh);
+}
+
+//Function for updating each object in a scene
+function loop(){
+
+
+    WIDTH = window.innerWidth;
+    HEIGHT = window.innerHeight;    
+
+     requestAnimationFrame(loop);                                      //update an animation before the next repaint
+
+     //crystal.mesh.rotation.y += 0.01;
+     //crystal.mesh.rotation.z -= 0.01;
+
+     // particle.mesh.scale.set(0.7,0.7,0.7);
+     // particle1.mesh.scale.set(0.7,0.7,0.7);
+  
+    if(airplane){
+        if(WIDTH < HEIGHT){
+            if(clock.running)
+                clock.stop();
+            
+            container.setAttribute('style', 'opacity: 0');
+            document.getElementById('rotate').setAttribute('style', 'opacity: 1');
+            document.getElementById('qrCode').setAttribute('style', 'opacity: 0');
+            return;
+        }
+        else{
+            if(clock.running == false && airplane.mesh.visible){
+                clock.start();
+                container.setAttribute('style', 'opacity: 1');
+                document.getElementById('rotate').setAttribute('style', 'opacity: 0');
+                document.getElementById('qrCode').setAttribute('style', 'opacity: 0');
+            }
+
+            updateAirplane();                                                 //flamingo behavior   
+
+            delta = clock.getDelta();
+
+            //mixer.update(delta);                                              //update animation every 'delta' seconds
+
+
+              airplane.pilot.updateHairs();
+              airplane.propeller.rotation.x += 0.3;
+
+           ground.moveWaves();
+           ground.mesh.rotation.x += 0.005;
+                
+            sideClouds.mesh.rotation.x += 0.007;
+
+            //clouds rotaion and collision detection
+            for(var i = 0; i < gameObjectsRowsCount; i++)
+            {
+
+
+
+                //if any clouds in a row
+                if(gameObjectsRows[i].clouds.length > 0){
+                    gameObjectsRows[i].mesh.getWorldPosition(gameObjectsRowGlobalPosition);                                     //'gameObjectsRowGlobalPosition' holds global position of each row of clouds
+                    for(var j = 0; j < gameObjectsRows[i].clouds.length; j++){                                           //cheking collision for every cloud
+                        
+                          //crystal.mesh.rotation.y += 0.01;
+                          //crystal.mesh.rotation.z -= 0.01;
+
+                        planePosVector = planePosVector.setFromMatrixPosition( airplane.mesh.matrixWorld );
+
+                        gameObjectsRows[i].clouds[j].mesh.getWorldPosition(objectGlobalPosition);                          //'objectGlobalPosition' holds global position of each cloud
+
+                        if(gameObjectsRows[i].clouds[j].name == "crystal"){
+                            gameObjectsRows[i].clouds[j].mesh.rotation.y += 0.01;
+                            gameObjectsRows[i].clouds[j].mesh.rotation.z -= 0.01;
+                            // if(objectGlobalPosition.y > 800 && gameObjectsRows[i].clouds[j].topPointLight){
+                            //     gameObjectsRows[i].clouds[j].setLightsPosition(objectGlobalPosition);
+                            //     // gameObjectsRows[i].clouds[j].topPointLight.position.set(objectGlobalPosition.x,
+                            //     //     objectGlobalPosition.y + 70,
+                            //     //     objectGlobalPosition.z
+                            //     //     );
+                            //     // gameObjectsRows[i].clouds[j].leftPointLight.position.set(objectGlobalPosition.x - 44,
+                            //     //     objectGlobalPosition.y,
+                            //     //     objectGlobalPosition.z + 18
+                            //     //     );
+                            //     // gameObjectsRows[i].clouds[j].rightPointLight.position.set(objectGlobalPosition.x + 44,
+                            //     //     objectGlobalPosition.y,
+                            //     //     objectGlobalPosition.z + 18
+                            //     //     );
+
+                            //    // scene.add(gameObjectsRows[i].clouds[j].topPointLight);
+                            //     scene.add(gameObjectsRows[i].clouds[j].leftPointLight); 
+                            //     scene.add(gameObjectsRows[i].clouds[j].rightPointLight);     
+                            // }
+                            // if(objectGlobalPosition.y < 900){
+                            //     //scene.remove(gameObjectsRows[i].clouds[j].topPointLight);
+                            //     scene.remove(gameObjectsRows[i].clouds[j].leftPointLight);
+                            //     scene.remove(gameObjectsRows[i].clouds[j].rightPointLight);
+                            // }
+                            //gameObjectsRows[i].clouds[j].setLightsPosition(objectGlobalPosition);
+                        }
+                        
+                            //collision detection
+                        if(planePosVector.distanceTo(objectGlobalPosition) < 40                                              
+                            && gameObjectsRowGlobalPosition.y > 150                                                       //this line removes the bug of collision with newly created clouds 
+                            && airplane.mesh.visible === true){
+
+                            
+                            if(gameObjectsRows[i].clouds[j].name == "crystal"){
+
+
+                                gameObjectsRows[i].clouds[j].mesh.visible = false;
+                                
+
+                                if(gameObjectsRows[i].clouds[j].particlesSpawned == false){
+                                    gameObjectsRows[i].clouds[j].spawnParticles(10, airplane);
+                                    totalCrystals += 1;
+                                    crystalsTaken.innerHTML = "Crystals: " + totalCrystals + ".";
+                                    //console.log(gameObjectsRows[i].clouds[j].topPointLight.position);
+                                    //console.log(objectGlobalPosition);
+                                    //console.log(document.getElementsByTagName("input")[0].value);
+                                    
+                                    // document.cookie = crystalsCookie + "=" + totalCrystals.toString();
+                                    // console.log(getCookie("crystals"));
+
+
+
+                                }
+                            }
+                            else{
+                                airplane.mesh.visible = false;
+                                //document.getElementById('crystal_quantity').value = totalCrystals;
+                                
+                                //document.getElementsByTagName("form")[0].submit();
+                                
+                                totalCrystals = 0;
+                                clock.stop();
+                                againButton.style.opacity = 1; 
+                                //alert(ground.mesh.material.color);
+                            }
+                        }   
+                    }
+                }
+                
+
+                if(airplane.mesh.visible){
+
+                    gameObjectsRows[i].mesh.rotation.x += 0.009;
+                
+                    
+                }
+                gameObjectsRows[i].rot += rotUpdate;
+                
+            //removes a cloud row every lap and makes new one to change a position of obstacles
+                if(gameObjectsRows[i].rot >= 6.18)
+                {
+                gameObjectsRows[i].removeRow();
+                gameObjectsRows[i] = new gameObjectsRow();
+            
+                gameObjectsRows[i].addClouds();
+                    
+                gameObjectsRows[i].rot = 0;
+                scene.add(gameObjectsRows[i].mesh);
+                    
+                }
+
+            //circular motion of clouds
+                gameObjectsRows[i].mesh.position.z = rowH * Math.cos(gameObjectsRows[i].rot);
+                gameObjectsRows[i].mesh.position.y = -rowH * Math.sin(gameObjectsRows[i].rot);
+
+           }
+
+            //updates the score
+            if(Math.floor(clock.elapsedTime) > score || score > clock.elapsedTime){
+                if(Math.floor(clock.elapsedTime) > score)
+                    score = Math.floor(clock.elapsedTime);
+                if(score > Math.floor(clock.elapsedTime))
+                    score += score.Math.floor(clock.elapsedTime);
+                timeSpend.innerHTML = "Time: " + score + " sec.";
+            }
+        
+            if(score % 4 === 0){
+                rotUpdate+=0.00001;
+            }
+
+            renderer.render(scene, camera);                                               //scene rendering
+        }
+    }
+}
+
+//updates the position of flamingo and keeps it in [-100; 100]
+function updateAirplane(){
+if(airplane){
+  if(planePos){
+    airplane.mesh.position.x += planePos;
+   }
+
+
+    if(airplane.mesh.position.x > 100)
+      airplane.mesh.position.x = 100;
+    else if(airplane.mesh.position.x < -100)
+      airplane.mesh.position.x = -100;
+
+    //alert("x " + airplane.mesh.position.x + " y " + airplane.mesh.position.y + " z " + airplane.mesh.position.z +" "+ planePosVector)
+  }
+}
+
+
+//getting data from the accelerometer
+function handleOrientation(event){
+
+    planePos = event.accelerationIncludingGravity.y;
+
+}
+
+//invokes 'init' function when window is loaded
+//window.addEventListener('load', init, false);
+}
+else{
+
+}
+
+
+
+
+
+
+</script>

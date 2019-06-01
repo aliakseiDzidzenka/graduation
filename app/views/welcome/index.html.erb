@@ -1,24 +1,47 @@
-<div class="container">
-    <div class="jumbotron">
-        <h1>Welcome#index</h1>        
-    </div>
-    <div class="row">
-    <div class="col-sm-12">
-        
+<style type="text/css">
+  #plane{
+    opacity: 0;
+  }
+</style>
+<script type="text/javascript" src="/javascripts/lib/_three.min.js"></script>
+<script type="text/javascript" src="/javascripts/lib/pilot.js"></script>
+<script type="text/javascript" src="/javascripts/lib/airplane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/index.js"></script>
+
 <% if current_user %>
-  <%= link_to "Sign out",  destroy_user_session_path, method: :delete %>
-<% else %>
-  <%= link_to "Sign up", new_user_registration_path %>
-  <%= link_to "Sign in", new_user_session_path %>
+  <%= render "/welcome/nav" %>
 <% end %>
+
+<div class="container">
+  
+  <div class="jumbotron ">
+    <h1 class="text-center">Flight game</h1>        
+  </div>
+  <% if !current_user %>
+    <ul class="nav  nav-bar justify-content-center ">
+      <li class="nav-item index-btn">
+        <%= link_to "Sign in", new_user_session_path, class: 'nav-link btn btn-outline-success ' %>
+      </li>
+      <li class="nav-item index-btn">
+        <%= link_to "Sign up", new_user_registration_path, class: 'nav-link btn btn-outline-primary ' %>
+      </li>
+    </ul>
+  <% end %>
+
+  <div class="row">
+    <div class="col-sm-12" id="plane">
     </div>
-</div>
-<div class="row">
+  </div>
+  <div class="row">
     <div class="col-sm-12">
-        <%= link_to "PLAY", game_index_path %>
+      <% if current_user %>
+        <%= link_to "PLAY", game_plane_path, class: 'btn btn-warning btn-lg btn-block', id: 'play-signed' %>
+      <% else %>
+        <%= link_to "Try for free", game_test_path, class: 'btn btn-warning btn-lg btn-block', id: 'play-not-signed' %>
+      <% end %>
     </div>
     
-</div>
+  </div>
 </div>
 
 

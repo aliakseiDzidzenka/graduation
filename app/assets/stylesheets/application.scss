@@ -14,6 +14,10 @@
  */
 @import "bootstrap";
 
+
+
+
+
 #world{
 	position: absolute;
 	width: 100%;
@@ -97,4 +101,40 @@ button {
     /*margin-left: -450px;*/
     position: absolute;
     opacity: 1;
+}
+
+#game{
+    opacity: 1;
+    top: 75%;
+}
+div.text-center > p:nth-child(1) > a:nth-child(3){
+    margin-top: -40px;
+}
+nav button{
+    opacity: 1;
+}
+.index-btn{
+    margin: 0px 20px 0px 20px;
+}
+#play-not-signed{
+    margin-top : 20px;
+}
+
+#open{
+    top: 20%;
+}
+
+#close{
+    top: 60%;
+}
+
+
+
+#world{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(#61d5d5,#08bdbd);
+    opacity: 0;
 }
