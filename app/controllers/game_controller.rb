@@ -10,8 +10,8 @@ class GameController < ApplicationController
   end
 
   def plane
-  	
-    
+    @planes = Array.new
+  	current_user.planes.each { |plane| @planes.push(plane.name) }
   end
 
   def test
