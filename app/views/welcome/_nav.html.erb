@@ -6,6 +6,9 @@
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <%= current_user.nickname %>
             </a>
+            <a class="nav-link" href="#" id="crystals" data-toggle="dropdown">
+              <%= current_user.crystal.quantity %> Crystals
+            </a>
           <% else %>
             <%= link_to "Sign in", new_user_session_path, class: 'nav-item btn btn-dark ' %>
             <%= link_to "Sign up", new_user_registration_path, class: 'nav-item btn btn-success ' %>

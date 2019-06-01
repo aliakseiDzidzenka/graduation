@@ -160,7 +160,7 @@ function init(event){
             //if(selected != planes.length)
             selected++;
             planes[selected].mesh.position.y = 0;
-            planes[selected].mesh.position.x = 0;
+            planes[selected].mesh.position.x = 10;
             document.cookie = "selected=" + planes[selected].name;
             
             title.innerHTML = planeNames[selected];
