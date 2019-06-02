@@ -1,6 +1,6 @@
 class GameController < ApplicationController
-	before_action :authenticate_user!
-	before_action :set_user
+	before_action :authenticate_user!, except: :test
+	before_action :set_user, except: :test
 
 
 	def index
@@ -10,8 +10,8 @@ class GameController < ApplicationController
   end
 
   def plane
-  	
-    
+    @planes = Array.new
+  	current_user.planes.each { |plane| @planes.push(plane.name) }
   end
 
   def test

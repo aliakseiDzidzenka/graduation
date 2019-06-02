@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand navbar-light bg-warning">
+  <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+<!--     <a class="navbar-brand" href=""><%= current_user.crystal.quantity %> Crystals</a> -->
+    <%= link_to 'Main', root_path, class: 'navbar-brand' %>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <span class="navbar-text">
+          <%= current_user.crystal.quantity %> Crystals
+    </span>
+    <ul class="navbar-nav">
+      <% if current_user %>
+         
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= current_user.nickname %>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+            
+            <%= link_to "Shop",  planes_path, class: "dropdown-item" %>
+            <%= link_to "Sign out",  destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>
