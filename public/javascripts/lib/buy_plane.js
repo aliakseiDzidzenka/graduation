@@ -166,12 +166,13 @@ function init(event){
             title.innerHTML = planeNames[selected];
             var planeId = document.getElementById('buy');
             planeId.setAttribute('href', 'planes/' + planeIds[selected]);
+            var chooseBtn = document.getElementById('choose');
             //planeId.setAttribute('style', 'display:block');
             var price = document.getElementById('price');
 
             if(userPlaneNames.includes(planeNames[selected]) == false){
               planeId.setAttribute('style', 'display:block');
-              
+              chooseBtn.setAttribute('style', 'display:none');
               price.innerHTML = 'Price: ' + planePrices[selected]
               if(lightIn){
                 scene.remove(shadowLight);
@@ -183,7 +184,8 @@ function init(event){
             }
             else{
               planeId.setAttribute('style', 'display:none');
-              price.innerHTML = 'Bought for: ' + planePrices[selected]
+              chooseBtn.setAttribute('style', 'display:block');
+              price.innerHTML = 'Bought for: ' + planePrices[selected];
               if (lightIn == false){
                 scene.add(shadowLight);
                 lightIn = true;
@@ -209,10 +211,12 @@ function init(event){
             document.cookie = "selected=" + planes[selected].name;
             title.innerHTML = planeNames[selected];
             var planeId = document.getElementById('buy');
+            var chooseBtn = document.getElementById('choose');
             var price = document.getElementById('price');
             planeId.setAttribute('href', 'planes/' + planeIds[selected]);
             if(userPlaneNames.includes(planeNames[selected]) == false){
               planeId.setAttribute('style', 'display:block');
+              chooseBtn.setAttribute('style', 'display:none');
               price.innerHTML = 'Price: ' + planePrices[selected]
               if(lightIn){
                 scene.remove(shadowLight);
@@ -224,7 +228,8 @@ function init(event){
             }
             else{
               planeId.setAttribute('style', 'display:none');
-              price.innerHTML = 'Bought for: ' + planePrices[selected]
+              chooseBtn.setAttribute('style', 'display:block');
+              price.innerHTML = 'Bought for: ' + planePrices[selected];
               if (lightIn == false){
                 scene.add(shadowLight);
                 lightIn = true;
