@@ -105,14 +105,28 @@ function init(event){
     createScene();
     createLights();
 
-    createDefaultPlane();
-    createDoubleWingPlane();
-    createSharpPlane();
-    createWhiteSharpPlane();
-    createBrownSharpPlane();
+    for (var i = 0; i < planeNames.length; i++) {
+      switch(planeNames[i]){
+        case 'default':
+          createDefaultPlane();
+          break;
+        case 'doubleWingPlane':
+          createDoubleWingPlane();
+          break;
+        case 'sharpPlane':
+          createSharpPlane();
+          break;
+      }
+    }
+
+    
+    
+    
+    // createWhiteSharpPlane();
+    // createBrownSharpPlane();
 
     // alert(getCookie('selected'));
-    // document.cookie = "selected=" + 'default';
+    document.cookie = "selected=" + 'default';
 
 
     for(var i = 0; i < planes.length; i++){

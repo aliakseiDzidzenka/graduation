@@ -1,0 +1,106 @@
+<style>
+	button {
+    opacity: 1;
+	}
+
+	#buy{
+		display: none;
+	}
+	#choose{
+		display: block;
+		margin-left: 0;
+	}
+	#plane{
+		width:100%;
+	}
+	#description{
+		margin: 0;
+		margin-bottom: 20px;
+	}
+
+</style>
+
+
+<script >
+	var airplanes = <%= @airplanes.to_json.html_safe %>;
+	var planeNames = [];
+	var planeIds = [];
+	var planePrices = [];
+	for (var i = 0; i < airplanes.length; i++) {
+		planeNames.push(airplanes[i].name);
+		// console.log(planeNames[i]);
+		planeIds.push(airplanes[i].id);
+		planePrices.push(airplanes[i].price);
+	}
+	var userPlaneNames = <%= @user_plane_names.to_json.html_safe %>;
+	var purchaseResult = '<%= @purchace_result %>';
+	if(purchaseResult != 'empty')
+		alert(purchaseResult);
+
+</script>
+
+
+
+<script type="text/javascript" src="/javascripts/lib/_three.min.js"></script>
+<script type="text/javascript" src="/javascripts/lib/pilot.js"></script>
+<script type="text/javascript" src="/javascripts/lib/airplane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/sharpPlane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/whiteSharpPlane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/brownSharpPlane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/doubleWingPlane.js"></script>
+<script type="text/javascript" src="/javascripts/lib/buy_plane.js"></script>
+
+
+
+<% if current_user %>
+  <%= render "/welcome/nnav" %>
+<% end %>
+
+<div class="container">
+  
+  <div class="jumbotron ">
+    <h1 class="text-center">Shop</h1>        
+  </div>
+
+	<div class="row align-items-center">
+    
+    <div class="card">
+    	<div class="card-header">
+    		<h5 class="text-center" id="title">default</h5>
+  		</div>
+    	<div class="card-body">
+    		<div id="plane">
+    	
+    		</div>
+    		<p class="card-text" id="description">А сюда добавляется какое-нибудь суперсмешное описание, которое всегда меняется</p>
+    		<h6 id="price">Bought for: 0</h6>
+
+    		
+    		<a href="planes/4" class="card-link btn btn-block btn-success" id="buy" data-method="put">Buy</a>
+    		<a href="#" class="card-link btn btn-block btn-outline-primary" id="choose" >Choose</a>
+  		</div>
+    </div>
+    
+    
+  </div>
+  <div class="row" style="margin-top: 20px">
+  	<div class="col">
+        <button type="button" class="btn btn-block btn-outline-secondary" id="buy-prev">&lt</button>
+    </div>
+    <div class="col">
+    	<button type="button" class="btn btn-block btn-outline-secondary" id="buy-next">&gt</button>
+    </div>
+  </div>
+
+
+
+</div>
+
+<!-- Footer -->
+<footer class="page-footer font-small blue pt-4">
+
+</footer>
+
+<!-- Footer -->
+
+

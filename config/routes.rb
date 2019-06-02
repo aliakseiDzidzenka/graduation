@@ -11,5 +11,6 @@ Rails.application.routes.draw do
   get '/flamingo_load', to: 'welcome#load'
 
   resources :crystals, only: [:index, :show, :new, :create, :edit, :update]
+  resources :planes, only: [:index, :update]
 
 end
