@@ -31,7 +31,8 @@ var gameObjectsRowsCount = 8;
 var s = -1 * Math.PI / 2;
 var controls;
 
-var nextButton, prevButton, toGameButton;
+var nextButton, prevButton, chooseButton;
+
 
 var planes = [];
 var plane;
@@ -135,22 +136,31 @@ function init(event){
 
 
     for(var i = 0; i < planes.length; i++){
-        // if(planes[i].name == getCookie('selected')){
-        //     planes[i].mesh.position.set(-30,0,0);
-        //     selected = i;
-        // }
-        // else{
+        if(planes[i].name == getCookie('selected')){
+          var canvas = document.getElementsByTagName('canvas')[0];
+          canvas.style.border = 'thick solid #007bff';
+            planes[i].mesh.position.set(0,0,0);
+            selected = i;
+        }
+        else{
             planes[i].mesh.position.set(0,100,0);
-        // }
+        }
     }
-    planes[0].mesh.position.set(0,0,0);
-    selected = 0;
+    //planes[0].mesh.position.set(0,0,0);
+    //selected = 0;
 
     prevButton = document.getElementById('buy-prev');
     nextButton = document.getElementById('buy-next');
+    chooseButton = document.getElementById('choose');
     var title = document.getElementById('title');
     var planeId = document.getElementById('buy');
   
+    chooseButton.onclick = function(){
+      document.cookie = "selected=" + planes[selected].name;
+      var canvas = document.getElementsByTagName('canvas')[0];
+      canvas.style.border = 'thick solid #007bff';
+    }
+
     nextButton.onclick = function(){
         //alert("next");
 
@@ -161,7 +171,12 @@ function init(event){
             selected++;
             planes[selected].mesh.position.y = 0;
             planes[selected].mesh.position.x = 0;
-            document.cookie = "selected=" + planes[selected].name;
+            var canvas = document.getElementsByTagName('canvas')[0];
+            if(planes[selected].name != getCookie('selected'))
+              canvas.style.border = 'none';
+            else
+              canvas.style.border = 'thick solid #007bff';
+            // document.cookie = "selected=" + planes[selected].name;
             
             title.innerHTML = planeNames[selected];
             var planeId = document.getElementById('buy');
@@ -208,7 +223,12 @@ function init(event){
             selected--;
             planes[selected].mesh.position.y = 0;
             planes[selected].mesh.position.x = 0;
-            document.cookie = "selected=" + planes[selected].name;
+            var canvas = document.getElementsByTagName('canvas')[0];
+            if(planes[selected].name != getCookie('selected'))
+              canvas.style.border = 'none';
+            else
+              canvas.style.border = 'thick solid #007bff';
+            // document.cookie = "selected=" + planes[selected].name;
             title.innerHTML = planeNames[selected];
             var planeId = document.getElementById('buy');
             var chooseBtn = document.getElementById('choose');
