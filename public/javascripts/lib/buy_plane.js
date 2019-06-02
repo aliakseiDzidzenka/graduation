@@ -134,7 +134,7 @@ function init(event){
     // alert(getCookie('selected'));
     // document.cookie = "selected=" + 'default';
     var title = document.getElementById('title');
-
+    var price = document.getElementById('price');
     for(var i = 0; i < planes.length; i++){
         if(planes[i].name == getCookie('selected')){
           var canvas = document.getElementsByTagName('canvas')[0];
@@ -142,6 +142,7 @@ function init(event){
             planes[i].mesh.position.set(0,0,0);
             selected = i;
             title.innerHTML = planeNames[selected];
+            price.innerHTML = 'Bought for: ' + planePrices[selected];
         }
         else{
             planes[i].mesh.position.set(0,100,0);
