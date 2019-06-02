@@ -39,8 +39,8 @@ var selected = 0;
 var lightIn = true;
 function createScene() {
 
-    HEIGHT = window.innerHeight/3;
-    WIDTH = window.innerWidth/12*8;
+    HEIGHT = window.innerHeight/2;
+    WIDTH = document.getElementById('plane').offsetWidth;//window.innerWidth;
 
     scene = new THREE.Scene();
     aspectRatio = WIDTH / HEIGHT;
@@ -76,8 +76,8 @@ function createScene() {
 function handleWindowResize() {
     HEIGHT = window.innerHeight;
     WIDTH = window.innerWidth;
-    HEIGHT = window.innerHeight/3;
-    WIDTH = window.innerWidth/12*8;
+    HEIGHT = window.innerHeight/2;
+    WIDTH = document.getElementById('plane').offsetWidth;//window.innerWidth;
     renderer.setSize(WIDTH, HEIGHT);
     camera.aspect = WIDTH / HEIGHT;
     camera.updateProjectionMatrix();
@@ -143,7 +143,7 @@ function init(event){
             planes[i].mesh.position.set(0,100,0);
         // }
     }
-    planes[0].mesh.position.set(10,0,0);
+    planes[0].mesh.position.set(0,0,0);
     selected = 0;
 
     prevButton = document.getElementById('buy-prev');
@@ -160,7 +160,7 @@ function init(event){
             //if(selected != planes.length)
             selected++;
             planes[selected].mesh.position.y = 0;
-            planes[selected].mesh.position.x = 10;
+            planes[selected].mesh.position.x = 0;
             document.cookie = "selected=" + planes[selected].name;
             
             title.innerHTML = planeNames[selected];
@@ -173,6 +173,8 @@ function init(event){
               if(lightIn){
                 scene.remove(shadowLight);
                 lightIn = false;
+                var canvas = document.getElementsByTagName('canvas')[0];
+                canvas.style.backgroundColor = 'gray';
               }
 
             }
@@ -181,6 +183,8 @@ function init(event){
               if (lightIn == false){
                 scene.add(shadowLight);
                 lightIn = true;
+                var canvas = document.getElementsByTagName('canvas')[0];
+                canvas.style.backgroundColor = 'white';
               }
             }
         }
@@ -197,7 +201,7 @@ function init(event){
             //if(selected != 0)
             selected--;
             planes[selected].mesh.position.y = 0;
-            planes[selected].mesh.position.x = 10;
+            planes[selected].mesh.position.x = 0;
             document.cookie = "selected=" + planes[selected].name;
             title.innerHTML = planeNames[selected];
             var planeId = document.getElementById('buy');
@@ -207,6 +211,8 @@ function init(event){
               if(lightIn){
                 scene.remove(shadowLight);
                 lightIn = false;
+                var canvas = document.getElementsByTagName('canvas')[0];
+                canvas.style.backgroundColor = 'gray';
               }
 
             }
@@ -215,6 +221,8 @@ function init(event){
               if (lightIn == false){
                 scene.add(shadowLight);
                 lightIn = true;
+                var canvas = document.getElementsByTagName('canvas')[0];
+                canvas.style.backgroundColor = 'white';
               }
             }
             // console.log(getCookie('selected'));
@@ -342,10 +350,10 @@ function createBrownSharpPlane(){
 
 function loop() {
 
-    WIDTH = window.innerWidth;
-    HEIGHT = window.innerHeight;
-    HEIGHT = window.innerHeight/4;
-    WIDTH = window.innerWidth/12*8;
+    // WIDTH = window.innerWidth;
+    // HEIGHT = window.innerHeight;
+    HEIGHT = window.innerHeight/2;
+    WIDTH = document.getElementById('plane').offsetWidth;//window.innerWidth;
     if(WIDTH < HEIGHT){
             // container.setAttribute('style', 'opacity: 0');
             // document.getElementById('rotate').setAttribute('style', 'opacity: 1');
