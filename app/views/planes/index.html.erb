@@ -9,6 +9,10 @@
 	#plane{
 		width:100%;
 	}
+	#description{
+		margin: 0;
+		margin-bottom: 20px;
+	}
 
 </style>
 
@@ -17,10 +21,12 @@
 	var airplanes = <%= @airplanes.to_json.html_safe %>;
 	var planeNames = [];
 	var planeIds = [];
+	var planePrices = [];
 	for (var i = 0; i < airplanes.length; i++) {
 		planeNames.push(airplanes[i].name);
 		// console.log(planeNames[i]);
 		planeIds.push(airplanes[i].id);
+		planePrices.push(airplanes[i].cost);
 	}
 	var userPlaneNames = <%= @user_plane_names.to_json.html_safe %>
 
@@ -65,6 +71,7 @@
     	
     		</div>
     		<p class="card-text" id="description">А сюда добавляется какое-нибудь суперсмешное описание, которое всегда меняется</p>
+    		<h6 id="price">Bought for: 0</h6>
     		<!-- <a href="#" class="card-link" id="more">Card link</a> -->
     		<a href="planes/4" class="card-link btn btn-block btn-success" id="buy" data-method="put">Buy</a>
   		</div>

@@ -167,9 +167,12 @@ function init(event){
             var planeId = document.getElementById('buy');
             planeId.setAttribute('href', 'planes/' + planeIds[selected]);
             //planeId.setAttribute('style', 'display:block');
+            var price = document.getElementById('price');
 
             if(userPlaneNames.includes(planeNames[selected]) == false){
               planeId.setAttribute('style', 'display:block');
+              
+              price.innerHTML = 'Price: ' + planePrices[selected]
               if(lightIn){
                 scene.remove(shadowLight);
                 lightIn = false;
@@ -180,6 +183,7 @@ function init(event){
             }
             else{
               planeId.setAttribute('style', 'display:none');
+              price.innerHTML = 'Bought for: ' + planePrices[selected]
               if (lightIn == false){
                 scene.add(shadowLight);
                 lightIn = true;
@@ -205,9 +209,11 @@ function init(event){
             document.cookie = "selected=" + planes[selected].name;
             title.innerHTML = planeNames[selected];
             var planeId = document.getElementById('buy');
+            var price = document.getElementById('price');
             planeId.setAttribute('href', 'planes/' + planeIds[selected]);
             if(userPlaneNames.includes(planeNames[selected]) == false){
               planeId.setAttribute('style', 'display:block');
+              price.innerHTML = 'Price: ' + planePrices[selected]
               if(lightIn){
                 scene.remove(shadowLight);
                 lightIn = false;
@@ -218,6 +224,7 @@ function init(event){
             }
             else{
               planeId.setAttribute('style', 'display:none');
+              price.innerHTML = 'Bought for: ' + planePrices[selected]
               if (lightIn == false){
                 scene.add(shadowLight);
                 lightIn = true;
