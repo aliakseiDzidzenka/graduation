@@ -30,8 +30,8 @@ var selected = 0;
 
 function createScene() {
 
-    HEIGHT = window.innerHeight/5;
-    WIDTH = window.innerWidth;
+    HEIGHT = window.innerHeight/3;
+    WIDTH = document.getElementById('plane').offsetWidth;
 
     scene = new THREE.Scene();
     aspectRatio = WIDTH / HEIGHT;
@@ -65,8 +65,8 @@ function createScene() {
 }
 
 function handleWindowResize() {
-    HEIGHT = window.innerHeight;
-    WIDTH = window.innerWidth;
+    HEIGHT = window.innerHeight/3;
+    WIDTH = document.getElementById('plane').offsetWidth;
     renderer.setSize(WIDTH, HEIGHT);
     camera.aspect = WIDTH / HEIGHT;
     camera.updateProjectionMatrix();
@@ -126,8 +126,8 @@ function createDefaultPlane(){
 
 function loop() {
 
-    WIDTH = window.innerWidth;
-    HEIGHT = window.innerHeight;
+    HEIGHT = window.innerHeight/3;
+    WIDTH = document.getElementById('plane').offsetWidth;
     
     requestAnimationFrame( loop );
 

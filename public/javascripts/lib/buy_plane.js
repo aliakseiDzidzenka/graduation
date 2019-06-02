@@ -74,8 +74,8 @@ function createScene() {
 }
 
 function handleWindowResize() {
-    HEIGHT = window.innerHeight;
-    WIDTH = window.innerWidth;
+    // HEIGHT = window.innerHeight;
+    // WIDTH = window.innerWidth;
     HEIGHT = window.innerHeight/2;
     WIDTH = document.getElementById('plane').offsetWidth;//window.innerWidth;
     renderer.setSize(WIDTH, HEIGHT);
