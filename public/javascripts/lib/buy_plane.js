@@ -133,7 +133,7 @@ function init(event){
 
     // alert(getCookie('selected'));
     // document.cookie = "selected=" + 'default';
-
+    var title = document.getElementById('title');
 
     for(var i = 0; i < planes.length; i++){
         if(planes[i].name == getCookie('selected')){
@@ -141,6 +141,7 @@ function init(event){
           canvas.style.border = 'thick solid #007bff';
             planes[i].mesh.position.set(0,0,0);
             selected = i;
+            title.innerHTML = planeNames[selected];
         }
         else{
             planes[i].mesh.position.set(0,100,0);
@@ -152,13 +153,13 @@ function init(event){
     prevButton = document.getElementById('buy-prev');
     nextButton = document.getElementById('buy-next');
     chooseButton = document.getElementById('choose');
-    var title = document.getElementById('title');
+    
     var planeId = document.getElementById('buy');
   
     chooseButton.onclick = function(){
       document.cookie = "selected=" + planes[selected].name;
       var canvas = document.getElementsByTagName('canvas')[0];
-      canvas.style.border = 'thick solid #007bff';
+      canvas.style.border = 'thick solid #007bff'; 
     }
 
     nextButton.onclick = function(){
