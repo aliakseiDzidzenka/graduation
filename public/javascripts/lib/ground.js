@@ -9,7 +9,7 @@ Ground = function(){
     this.colors = [];
     this.colors.push(0x1e8b0e);
     this.colors.push(0xfa8334);
-    this.colors.push(0x43c59e);
+    this.colors.push(0x114068);
     
     var l = geom.vertices.length;
     
@@ -19,10 +19,7 @@ Ground = function(){
     for(var i = 0; i < l; i++){
     
     var v = geom.vertices[i];
-
-    //v.x = v.x + Math.cos(Math.random()*Math.PI*2)*5 + Math.random() * 35;
-    //v.y = v.y + Math.sin(Math.random()*Math.PI*2)*5 + Math.random() * 35;
-    
+  
     //Each wave is an object with x,y,z coordinations rotaion angel, amplitute and speed of changing
     this.waves.push({y: v.y,
                      x: v.x,
@@ -34,7 +31,7 @@ Ground = function(){
     }
     
     var material = new THREE.MeshPhongMaterial({
-    color: 0x1e8b0e,//1e8b0e,//26ae11,//29bf12 veru bright green,//43c59e мятный,//fa8334 desert orange,//4cb944 bright green,//566e3d bledno green,//b9a44c yellow,//33658a cinii,
+    color: 0x1e8b0e,//1e8b0e,//43c59e,//1e8b0e,//1e8b0e,//26ae11,//29bf12 veru bright green,//43c59e мятный,//fa8334 desert orange,//4cb944 bright green,//566e3d bledno green,//b9a44c yellow,//33658a cinii,
     shading:THREE.FlatShading});
     
     this.mesh = new THREE.Mesh(geom,material);
@@ -44,7 +41,7 @@ Ground = function(){
 }
     
     //function for waves mooving
-Ground.prototype.moveWaves = function(){
+Ground.prototype.moveWaves = function(addAmp){
     
     var verts = this.mesh.geometry.vertices;
     var l = verts.length;
@@ -54,8 +51,8 @@ Ground.prototype.moveWaves = function(){
     var vprops = this.waves[i];
     
     //Assignment to each vertex of the position of each 'wave'
-    v.x = vprops.x + Math.cos(vprops.ang)*vprops.amp;
-    v.y = vprops.y + Math.sin(vprops.ang)*vprops.amp;
+    v.x = vprops.x + Math.cos(vprops.ang)*vprops.amp * addAmp;
+    v.y = vprops.y + Math.sin(vprops.ang)*vprops.amp * addAmp;
     
     vprops.ang += vprops.speed;
     

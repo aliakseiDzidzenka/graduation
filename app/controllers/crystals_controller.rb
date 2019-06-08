@@ -12,8 +12,13 @@ class CrystalsController < ApplicationController
 
 
 	def update
+		# puts '*************'
+  #   puts params[:s]
+  #   puts params[:id]
+  #   puts '*************'
+		
 		@crystal = Crystal.find(params[:id])
-		@crystal.quantity += params[:crystal][:quantity].to_i
+		@crystal.quantity += params[:resource][:crystals].to_i#[:quantity].to_i
   	@crystal.save
 
 	end

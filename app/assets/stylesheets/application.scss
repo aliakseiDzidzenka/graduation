@@ -13,6 +13,7 @@
 
  */
 @import "bootstrap";
+@import "font-awesome";
 
 
 
@@ -46,7 +47,8 @@ figure{
     	text-align: center;
 }
 img{
-	margin-top: 100px;
+	/*margin-top: 100px;*/
+    margin-left: -150%;
 }
 p{
 	margin-bottom: 50px;
@@ -67,6 +69,10 @@ p{
     margin-left: -90px;
     position: absolute;
     opacity: 0;
+}*/
+/*#score-div{*/
+/*    left: 50%;
+    margin-left: -75px;
 }*/
 #prev{ 
 	background-color: #4CAF50; 

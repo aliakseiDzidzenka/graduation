@@ -18,6 +18,13 @@ class GameController < ApplicationController
   	
   end
 
+  def par
+    puts '*************'
+    puts params[:s]
+    puts '*************'
+    #redirect_to planes_par_path(param1: 'value', ...)
+  end
+
   private
 
   def set_user
