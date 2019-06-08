@@ -419,10 +419,27 @@ function loop(){
                             }
                             else{
                                 airplane.mesh.visible = false;
-                                document.getElementById('crystal_quantity').value = totalCrystals;
+                                //document.getElementById('crystal_quantity').value = totalCrystals;
                                 
-                                document.getElementsByTagName("form")[0].submit();
+                                //document.getElementsByTagName("form")[0].submit();
                                 
+                                
+                                $.ajax({
+                                    type: "PATCH",
+                                    dataType: "script",
+                                    url: '/crystals/'+crystalId,
+                                    contentType: 'application/json',
+                                    data: JSON.stringify({ resource:{crystals: totalCrystals, id: crystalId}, _method:'patch' })
+                                });
+   //                              $.ajax({
+   //                                  type: 'PATCH',
+   //                                  url: '/crysta1s/:id',
+   //                                  data: {id: crystalId, s: s}
+
+   // /* success and error handling omitted for brevity */
+   //                              });
+                                // $.patch('/crystals/update',{id: crystalId, s: s});
+
                                 totalCrystals = 0;
                                 clock.stop();
                                 againButton.style.opacity = 1; 
