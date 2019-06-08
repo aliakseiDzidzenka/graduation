@@ -12,7 +12,7 @@ gem 'jquery-rails'
 gem 'simple_form'
 
 gem 'devise'
-
+gem "font-awesome-rails"
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

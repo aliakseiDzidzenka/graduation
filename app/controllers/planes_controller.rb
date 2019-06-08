@@ -14,6 +14,8 @@ class PlanesController < ApplicationController
 	end
 
 	def update
+
+
   	@plane = Plane.find(params[:id])
   	#current_user.crystal.quantity = 1000
 
@@ -33,10 +35,14 @@ class PlanesController < ApplicationController
   	end
 
 
-  	
-
   	redirect_to planes_path
 
+	end
+
+	def par
+		puts '***************'
+		puts params[:s]
+		puts '***************'
 	end
 
 	private
