@@ -16,5 +16,6 @@ Rails.application.routes.draw do
 
   resources :crystals, only: [:index, :show, :new, :create, :edit, :update]
   resources :planes, only: [:index, :update]
+  resources :records, only: [:index, :show]
 
 end

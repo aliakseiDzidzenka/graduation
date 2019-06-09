@@ -1,0 +1,22 @@
+<% if current_user %>
+  <%= render "/welcome/nnav" %>
+<% end %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Nickname</th>
+      <th scope="col" colspan="2"><%= current_user.nickname %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Longest time</th>
+      <td><%= current_user.record.time %> sec.</td>
+    </tr>
+    <tr>
+      <th scope="row">Max crystals taken</th>
+      <td><%= current_user.record.crystal %></td>
+    </tr>
+  </tbody>
+</table>
