@@ -431,6 +431,14 @@ function loop(){
                                     contentType: 'application/json',
                                     data: JSON.stringify({ resource:{crystals: totalCrystals, id: crystalId}, _method:'patch' })
                                 });
+
+                                $.ajax({
+                                    type: "PATCH",
+                                    dataType: "script",
+                                    url: '/records/'+recordId,
+                                    contentType: 'application/json',
+                                    data: JSON.stringify({ resource:{crystals: totalCrystals, id: recordId, time: score}, _method:'patch' })
+                                });
    //                              $.ajax({
    //                                  type: 'PATCH',
    //                                  url: '/crysta1s/:id',
