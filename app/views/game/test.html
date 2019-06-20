@@ -111,9 +111,9 @@ function closeFullscreen() {
             <!--<img src="img/qr-code.gif" alt="qr code" width="200" height="200">-->
 
             <figcaption>
-                <h1>OOOPS...</h1>
+                <!-- <h1>OOOPS...</h1>
                 <p>I'm sorry but this game is only for mobile devices</p>
-                <p>Try using your smartphone</p>
+                <p>Try using your smartphone</p> -->
 
             </figcaption>
         </figure>
@@ -424,6 +424,9 @@ function createGround(){
     ground.mesh.position.z = 0;
 
     scene.add(ground.mesh);
+    ground.mesh.visible = true;
+
+    console.log( ground.mesh.position.x + ', ' +  ground.mesh.position.y + ', ' +  ground.mesh.position.z) ;
 }
 
 function createSideClouds(){
